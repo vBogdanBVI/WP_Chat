@@ -26,9 +26,16 @@
 			// Dynamically changes the button ID based on what the visitor enters in the pre-chat form.
 			// Returns a valid button ID.
 		//};
-		embedded_svc.settings.prepopulatedPrechatFields = [{"label":"FirstName","value":"John","displayToAgent":true},
+/* 
+  	embedded_svc.settings.prepopulatedPrechatFields = [{"label":"FirstName","value":"John","displayToAgent":true},
+	{"label":"LastName","value":"Doe","displayToAgent":true},
+	{"label":"Email","value":"john.doe@salesforce.com","displayToAgent":true}]; //Sets the auto-population of pre-chat form fields
+*/
+
+
+		embedded_svc.snippetSettingsFile.extraPrechatFormDetails = [{"label":"FirstName","value":"John","displayToAgent":true},
 {"label":"LastName","value":"Doe","displayToAgent":true},
-{"label":"Email","value":"john.doe@salesforce.com","displayToAgent":true}]; //Sets the auto-population of pre-chat form fields
+{"label":"Email","value":"john.doe@salesforce.com","displayToAgent":true}];
 
     
 		//embedded_svc.settings.fallbackRouting = []; //An array of button IDs, user IDs, or userId_buttonId

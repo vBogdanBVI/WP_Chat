@@ -62,7 +62,13 @@
         embedded_svc.addEventHandler("onChatRequestSuccess", function(data) {
             console.log("onChatRequestSuccess event was fired.  liveAgentSessionKey was " + data.liveAgentSessionKey);
         });
+        
+        embedded_svc.addEventHandler("onChatEstablished", function(data) {
+            var chatKey = data.liveAgentSessionKey;
+            console.log("liveAgentSessionKey was " + chatKey);
+        });
 
+        
         /*
         embedded_svc.addEventHandler("onChatEstablished", function(data) {
             var chatKey = data.liveAgentSessionKey;

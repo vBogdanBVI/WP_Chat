@@ -37,7 +37,10 @@
     <script type='text/javascript'>
 
         function startChat() {
+            console.log('startChat1')
             if (!window.embedded_svc) {
+                console.log('startChat2')
+
                 var s = document.createElement('script');
                 s.setAttribute('src', 'https://tipico--wordpress.sandbox.my.salesforce.com/embeddedservice/5.0/esw.min.js');
                 s.onload = function () {
@@ -45,14 +48,21 @@
                 };
                 document.body.appendChild(s);
             } else {
+                console.log('startChat3')
+
                 initESW('https://service.force.com');
             }
+            console.log('startChat4')
+
         }
 
 
 
 
         var initESW = function (gslbBaseURL) {
+            console.log('initESW')
+            console.log('gslbBaseURL - ' + gslbBaseURL)
+            
             embedded_svc.settings.displayHelpButton = false; //Or false
             embedded_svc.settings.language = ''; //For example, enter 'en' or 'en-US'
 
@@ -154,7 +164,7 @@
         } else {
             initESW('https://service.force.com');
         }
-        
+
          */
     </script>
 </html>

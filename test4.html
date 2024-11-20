@@ -1,20 +1,26 @@
 <html>
 
-    <form id="theForm">
-        <p>
-            <label for="fName">First Name:</label>
-            <input id="fName" name="fName" value="Some First Name" type="text" />
-        </p>
-        <p>
-            <label for="lName">Last Name:</label>
-            <input id="lName" name="lName"  value="Some Last Name" type="text" />
-        </p>
-        <p>
-            <label for="email">Email:</label>
-            <input id="email" value="Some email" name="email" type="text" />
-        </p>
-<!--        <button>Send Me!</button>-->
-    </form>
+<!--    <form id="theForm">-->
+<!--        <p>-->
+<!--            <label for="fName">First Name:</label>-->
+<!--            <input id="fName" name="fName" value="Some First Name" type="text" />-->
+<!--        </p>-->
+<!--        <p>-->
+<!--            <label for="lName">Last Name:</label>-->
+<!--            <input id="lName" name="lName"  value="Some Last Name" type="text" />-->
+<!--        </p>-->
+<!--        <p>-->
+<!--            <label for="email">Email:</label>-->
+<!--            <input id="email" value="Some email" name="email" type="text" />-->
+<!--        </p>-->
+<!--&lt;!&ndash;        <button>Send Me!</button>&ndash;&gt;-->
+<!--    </form>-->
+
+
+
+
+
+    <button onclick="startChat()">Click here to start chat</button>
 
     <style type='text/css'>
         .embeddedServiceHelpButton .helpButton .uiButton {
@@ -29,11 +35,28 @@
 
     <script type='text/javascript' src='https://service.force.com/embeddedservice/5.0/esw.min.js'></script>
     <script type='text/javascript'>
+        
+        function startChat() {
+            if (!window.embedded_svc) {
+                var s = document.createElement('script');
+                s.setAttribute('src', 'https://tipico--wordpress.sandbox.my.salesforce.com/embeddedservice/5.0/esw.min.js');
+                s.onload = function () {
+                    initESW(null);
+                };
+                document.body.appendChild(s);
+            } else {
+                initESW('https://service.force.com');
+            }
+        }
+        
+        
+        
+        
         var initESW = function (gslbBaseURL) {
-            embedded_svc.settings.displayHelpButton = true; //Or false
+            embedded_svc.settings.displayHelpButton = false; //Or false
             embedded_svc.settings.language = ''; //For example, enter 'en' or 'en-US'
 
-            embedded_svc.settings.defaultMinimizedText = 'Chat with agent'; //(Defaults to Chat with an Expert)
+            //embedded_svc.settings.defaultMinimizedText = '...'; //(Defaults to Chat with an Expert)
             //embedded_svc.settings.disabledMinimizedText = '...'; //(Defaults to Agent Offline)
 
             //embedded_svc.settings.loadingText = ''; //(Defaults to Loading)
@@ -48,8 +71,6 @@
             //embedded_svc.settings.fallbackRouting = []; //An array of button IDs, user IDs, or userId_buttonId
             //embedded_svc.settings.offlineSupportMinimizedText = '...'; //(Defaults to Contact Us)
 
-            
-
             /*
                     embedded_svc.snippetSettingsFile.extraPrechatFormDetails = [{
                         "label": "FirstName",
@@ -60,16 +81,14 @@
                         {"label": "Email", "value": "john.doe@salesforce.com", "displayToAgent": true}];
 
              */
-            /*
+
             const fName = document.getElementById("fName");
             console.log('fName ' + fName.value);
             const lName = document.getElementById("lName");
             console.log('fName ' + fName.value);
             const emailVar = document.getElementById("email");
             console.log('fName ' + fName.value);
-            */
 
-            
             embedded_svc.settings.extraPrechatFormDetails = [
                 {
                     "label": "First Name",
@@ -124,6 +143,7 @@
             );
         };
 
+        /*
         if (!window.embedded_svc) {
             var s = document.createElement('script');
             s.setAttribute('src', 'https://tipico--wordpress.sandbox.my.salesforce.com/embeddedservice/5.0/esw.min.js');
@@ -134,5 +154,7 @@
         } else {
             initESW('https://service.force.com');
         }
+        
+         */
     </script>
 </html>

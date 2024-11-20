@@ -63,9 +63,9 @@
             console.log("onChatRequestSuccess event was fired.  liveAgentSessionKey was " + data.liveAgentSessionKey);
         });
 
-        liveagent.addEventListener("onChatConferenceInitiated",function(message) {
-            varchatKey=liveagent.chasitor.getChatKey());
-            console.log("onChatRequestSuccess event was fired.  liveAgentSessionKey was " + varchatKey);
+        embedded_svc.addEventHandler("onChatEstablished", function(data) {
+            var chatKey = data.liveAgentSessionKey;
+            console.log("onChatRequestSuccess event was fired.  liveAgentSessionKey was " + chatKey);
         });
 
         embedded_svc.settings.enabledFeatures = ['LiveAgent'];

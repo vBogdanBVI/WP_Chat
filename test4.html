@@ -60,20 +60,24 @@
              */
 
             const fName = document.getElementById("fName");
-            console.log('fName' + fName.value);
+            console.log('fName ' + fName.value);
+            const lName = document.getElementById("lName");
+            console.log('fName ' + fName.value);
+            const emailVar = document.getElementById("email");
+            console.log('fName ' + fName.value);
 
             embedded_svc.settings.extraPrechatFormDetails = [
                 {
                     "label": "First Name",
-                    "value": "Jonh",
+                    "value": fName.value,
                     "transcriptFields": ["FirstName__c"]
                 }, {
                     "label": "Last Name",
-                    "value": "Doe",
+                    "value": lName.value,
                     "transcriptFields": ["LastName__c"]
                 }, {
                     "label": "Email",
-                    "value": "Doe@gmail.com",
+                    "value": emailVar.value,
                     "transcriptFields": ["Email__c"]
                 }
             ];

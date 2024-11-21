@@ -214,7 +214,7 @@
         console.log(arr);
     }
 
-
+/*
     function checkAgentAvailability() {
         embedded_svc.getAgentAvailability('573Pw000002FmXp', function (result) {
 
@@ -225,6 +225,20 @@
                 messageElement.innerHTML = "Agent is available";
             }
         });
+    }
+
+*/
+    function checkAgentAvailability() {
+        const elementEnabled = document.getElementsByClassName('uiButton helpButtonEnabled');
+        const elementDisabled = document.getElementsByClassName('uiButton helpButtonDisabled');
+        if(elementEnabled && elementEnabled.length > 0) {
+            messageElement.innerHTML = "Agent is available";
+
+        }
+        if(elementDisabled && elementDisabled.length > 0) {
+            messageElement.innerHTML = "Agent is available";
+
+        }
     }
 </script>
 </body>

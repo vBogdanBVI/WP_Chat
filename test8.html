@@ -29,6 +29,8 @@
 <script type='text/javascript'>
     // Load Embedded Service Chat
     var initESW = function(gslbBaseURL) {
+        console.log('initESW1');
+
         embedded_svc.settings.displayHelpButton = false; // Hide the default help button
         embedded_svc.settings.language = ''; // For setting the language
 
@@ -67,11 +69,17 @@
         //         isOfflineSupportEnabled: false
         //     }
         // );
+
+        console.log('initESW2');
+
     };
 
     // Function to start chat
     function startChat() {
+        console.log('startChat1');
         if (!window.embedded_svc) {
+            console.log('startChat2');
+
             var s = document.createElement('script');
             s.setAttribute('src', 'https://tipico--wordpress.sandbox.my.salesforce.com/embeddedservice/5.0/esw.min.js');
             s.onload = function() {
@@ -80,8 +88,12 @@
             };
             document.body.appendChild(s);
         } else {
+            console.log('startChat3');
+
             embedded_svc.startChat();
         }
+        console.log('startChat4');
+
     }
 
     // Load the Embedded Service script when the page is ready

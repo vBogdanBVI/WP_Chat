@@ -72,6 +72,12 @@
             console.log("liveAgentSessionKey was " + chatKey);
         });
 
+
+        embedded_svc.addEventHandler("onAvailability", function(data) {
+            console.log("onAvailability event was fired. Agent availability status is " + data.isAgentAvailable ? "online": "offline");
+        });
+
+
         embedded_svc.settings.enabledFeatures = ['LiveAgent'];
         embedded_svc.settings.entryFeature = 'LiveAgent';
 

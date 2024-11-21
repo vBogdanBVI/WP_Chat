@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Start Chat Automatically</title>
+  <script type='text/javascript'>
+    // Function to load and initialize Embedded Service Chat
+    var initESW = function(gslbBaseURL) {
+      embedded_svc.settings.displayHelpButton = false; // Hide the default help button
+      embedded_svc.settings.language = ''; // For setting the language
+
+      // Initialize the chat
+      embedded_svc.init(
+              'https://tipico--wordpress.sandbox.my.salesforce.com',
+              'https://tipico--wordpress.sandbox.my.salesforce-sites.com/chat',
+              gslbBaseURL,
+              '572Pw000004yHRt',
+              '00DPw000006X0HC'
+      );
+
+      // Automatically start the chat
+      embedded_svc.startChat({
+        prepopulatedPrechatFields: {
+          FirstName: "John",
+          LastName: "Doe",
+          Email: "john.doe@example.com"
+        },
+        directToButtonRouting: function(prechatFormData) {
+          return '573Pw000002FmXp'; // Replace with your Chat Button ID
+        }
+      });
+    };
+
+    // Function to load the Embedded Service script
+    function loadESW() {
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://tipico--wordpress.sandbox.my.salesforce.com/embeddedservice/5.0/esw.min.js');
+      s.onload = function() {
+        initESW(null);
+      };
+      document.body.appendChild(s);
+    }
+
+    // Load the Embedded Service script when the page is ready
+    document.addEventListener("DOMContentLoaded", function() {
+      loadESW();
+    });
+  </script>
+</head>
+<body>
+<!-- No button needed as the chat starts automatically -->
+</body>
+</html>

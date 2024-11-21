@@ -84,13 +84,30 @@
             s.setAttribute('src', 'https://tipico--wordpress.sandbox.my.salesforce.com/embeddedservice/5.0/esw.min.js');
             s.onload = function() {
                 initESW(null);
-                embedded_svc.startChat();
+                // embedded_svc.startChat();
+                embedded_svc.liveAgentAPI.startChat({
+                    directToAgentRouting: {
+                        buttonId: '573Pw000002FmXp',
+                        // userId: “”,
+                        fallback: true
+                    },
+                    extraPrechatInfo: [],
+                    extraPrechatFormDetails: []
+                });
             };
             document.body.appendChild(s);
         } else {
             console.log('startChat3');
 
-            embedded_svc.startChat();
+            embedded_svc.liveAgentAPI.startChat({
+                directToAgentRouting: {
+                    buttonId: '573Pw000002FmXp',
+                    // userId: “”,
+                    fallback: true
+                },
+                extraPrechatInfo: [],
+                extraPrechatFormDetails: []
+            });
         }
         console.log('startChat4');
 

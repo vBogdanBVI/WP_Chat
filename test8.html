@@ -17,7 +17,6 @@
             <label for="email">Email:</label>
             <input id="email" value="Some email" name="email" type="text" />
         </p>
-<!--        <button>Send Me!</button>-->
     </form>
 
 <input type="button" value="Start Chat" onclick="startChat();"/><br/><br/><br/>
@@ -27,9 +26,8 @@
 
 <button onclick="checkAgentAvailability()">Check Agent status</button>
 
-<!--
-    Snipped Code from Embedded Service Deployment
--->
+
+
 
 <style type='text/css'>
     .embeddedServiceHelpButton .helpButton .uiButton {
@@ -156,20 +154,6 @@
 
     }
 
-/*
-    function checkAgentAvailability() {
-        embedded_svc.getAgentAvailability('573Pw000002FmXp', function (result) {
-
-            var messageElement = document.getElementById("message");
-            if (result.isAvailable) {
-                messageElement.innerHTML = "Agent is available";
-            } else {
-                messageElement.innerHTML = "Agent is available";
-            }
-        });
-    }
-
-*/
     function checkAgentAvailability() {
         const elementEnabled = document.getElementsByClassName('uiButton helpButtonEnabled');
         const elementDisabled = document.getElementsByClassName('uiButton helpButtonDisabled');
@@ -188,7 +172,7 @@
     }
 
     window.setInterval(function () {
-        console.log('checkAgentAvailability - ')
+        console.log('checkAgentAvailability - setInterval')
         checkAgentAvailability();
     }, 500);
 

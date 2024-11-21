@@ -10,13 +10,21 @@
       embedded_svc.settings.language = ''; // For setting the language
 
       // Initialize the chat
-      embedded_svc.init(
-              'https://tipico--wordpress.sandbox.my.salesforce.com',
-              'https://tipico--wordpress.sandbox.my.salesforce-sites.com/chat',
-              gslbBaseURL,
-              '572Pw000004yHRt',
-              '00DPw000006X0HC'
-      );
+        embedded_svc.init(
+            'https://tipico--wordpress.sandbox.my.salesforce.com',
+            'https://tipico--wordpress.sandbox.my.salesforce-sites.com/chat',
+            gslbBaseURL,
+            '00DPw000006X0HC',
+            'testWP',
+            {
+                baseLiveAgentContentURL: 'https://c.la12s-core1.sfdc-cehfhs.salesforceliveagent.com/content',
+                deploymentId: '572Pw000004yHRt',
+                buttonId: '573Pw000002FmXp',
+                baseLiveAgentURL: 'https://d.la12s-core1.sfdc-cehfhs.salesforceliveagent.com/chat',
+                eswLiveAgentDevName: 'testWP',
+                isOfflineSupportEnabled: false
+            }
+        );
 
       // Automatically start the chat
       embedded_svc.startChat({

@@ -171,6 +171,31 @@
         //embedded_svc.settings.prepopulatedPrechatFields = {}; //Sets the auto-population of pre-chat form fields
         //embedded_svc.settings.fallbackRouting = []; //An array of button IDs, user IDs, or userId_buttonId
         //embedded_svc.settings.offlineSupportMinimizedText = '...'; //(Defaults to Contact Us)
+        embedded_svc.settings.extraPrechatFormDetails = [
+            {
+                "label": "First Name",
+                "value": "Jonh",
+                "transcriptFields": ["FirstName__c"]
+            }, {
+                "label": "Last Name",
+                "value": "Doe",
+                "transcriptFields": ["LastName__c"]
+            }, {
+                "label": "Email",
+                "value": "Doe@gmail.com",
+                "transcriptFields": ["Email__c"]
+            }
+        ];
+
+
+        embedded_svc.addEventHandler("onChatRequestSuccess", function(data) {
+            console.log("onChatRequestSuccess event was fired.  liveAgentSessionKey was " + data.liveAgentSessionKey);
+        });
+
+        embedded_svc.addEventHandler("onChatEstablished", function(data) {
+            var chatKey = data.liveAgentSessionKey;
+            console.log("liveAgentSessionKey was " + chatKey);
+        });
 
         embedded_svc.settings.enabledFeatures = ['LiveAgent'];
         embedded_svc.settings.entryFeature = 'LiveAgent';
@@ -220,7 +245,6 @@
     }
 
     function clearSession() {
-
         console.log( 'Inside Start Chat' );
         embedded_svc.liveAgentAPI.clearSession();
 

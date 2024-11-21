@@ -23,8 +23,9 @@
 <input type="button" value="Start Chat" onclick="startChat();"/><br/><br/><br/>
 <input type="button" value="Clear Chat Session" onclick="clearSession();"/><br/>
 
-<p id="message">Agent is available</p>
-<button onclick="checkAgentAvailability()">Проверить статус агента</button>
+<p id="messageId">Agent is available</p>
+
+<button onclick="checkAgentAvailability()">Check Agent status</button>
 
 <!--
     Snipped Code from Embedded Service Deployment
@@ -43,8 +44,8 @@
 <script type='text/javascript' src='https://service.force.com/embeddedservice/5.0/esw.min.js'></script>
 <script type='text/javascript'>
     var initESW = function(gslbBaseURL) {
-        // embedded_svc.settings.displayHelpButton = false; //Or false
-        embedded_svc.settings.displayHelpButton = true; //Or false
+        embedded_svc.settings.displayHelpButton = false; //Or false
+        // embedded_svc.settings.displayHelpButton = true; //Or false
         embedded_svc.settings.language = ''; //For example, enter 'en' or 'en-US'
 
         //embedded_svc.settings.defaultMinimizedText = '...'; //(Defaults to Chat with an Expert)
@@ -173,15 +174,15 @@
         const elementEnabled = document.getElementsByClassName('uiButton helpButtonEnabled');
         const elementDisabled = document.getElementsByClassName('uiButton helpButtonDisabled');
 
-        // var messageElement = document.getElementById("message");
+        var messageElement = document.getElementById("messageId");
 
         if(elementEnabled && elementEnabled.length > 0) {
             console.log("Agent is available");
-            // messageElement.innerHTML = "Agent is available";
+            messageElement.innerHTML = "Agent is available";
         }
         if(elementDisabled && elementDisabled.length > 0) {
             console.log("Agent is offline");
-            // messageElement.innerHTML = "Agent is offline";
+            messageElement.innerHTML = "Agent is offline";
 
         }
     }

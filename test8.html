@@ -22,7 +22,6 @@
 
 <input type="button" value="Start Chat" onclick="startChat();"/><br/><br/><br/>
 <input type="button" value="Clear Chat Session" onclick="clearSession();"/><br/>
-<input type="button" value="test" onclick="test();"/><br/>
 
 <p id="message">Agent is available</p>
 <button onclick="checkAgentAvailability()">Проверить статус агента</button>
@@ -108,9 +107,7 @@
     } else {
         initESW('https://service.force.com');
     }
-</script>
 
-<script>
     function startChat() {
 
         console.log( 'Inside Start Chat' );
@@ -137,7 +134,6 @@
                 "transcriptFields": ["Email__c"]
             }
         ];
-
         console.log(arr);
 
 
@@ -148,33 +144,6 @@
             },
             extraPrechatFormDetails: arr
         });
-
-        //
-        // embedded_svc.liveAgentAPI.startChat({
-        //     directToAgentRouting: {
-        //         buttonId: "573Pw000002FmXp",
-        //         fallback: true
-        //     },
-        //     extraPrechatFormDetails: [
-        //         {
-        //             "label": "First Name",
-        //             "value": "Jonh2",
-        //             "transcriptFields": ["FirstName__c"]
-        //         }, {
-        //             "label": "Last Name",
-        //             "value": "Doe2",
-        //             "transcriptFields": ["LastName__c"]
-        //         }, {
-        //             "label": "Email",
-        //             "value": "Doe2@gmail.com",
-        //             "transcriptFields": ["Email__c"]
-        //         }
-        //     ]
-        // });
-        //
-
-
-
         console.log( 'end Start Chat' );
 
     }
@@ -183,35 +152,6 @@
         console.log( 'Inside Start Chat' );
         embedded_svc.liveAgentAPI.clearSession();
 
-    }
-
-    function test() {
-        console.log( 'test' );
-
-        const fName = document.getElementById("fName");
-        console.log('fName ' + fName.value);
-        const lName = document.getElementById("lName");
-        console.log('fName ' + lName.value);
-        const emailVar = document.getElementById("email");
-        console.log('fName ' + emailVar.value);
-
-        let arr = [
-            {
-                "label": "First Name",
-                "value": fName.value,
-                "transcriptFields": ["FirstName__c"]
-            }, {
-                "label": "Last Name",
-                "value": lName.value,
-                "transcriptFields": ["LastName__c"]
-            }, {
-                "label": "Email",
-                "value": emailVar.value,
-                "transcriptFields": ["Email__c"]
-            }
-        ];
-
-        console.log(arr);
     }
 
 /*
@@ -232,15 +172,15 @@
         const elementEnabled = document.getElementsByClassName('uiButton helpButtonEnabled');
         const elementDisabled = document.getElementsByClassName('uiButton helpButtonDisabled');
 
-        var messageElement = document.getElementById("message");
+        // var messageElement = document.getElementById("message");
 
         if(elementEnabled && elementEnabled.length > 0) {
             console.log("Agent is available");
-            messageElement.innerHTML = "Agent is available";
+            // messageElement.innerHTML = "Agent is available";
         }
         if(elementDisabled && elementDisabled.length > 0) {
             console.log("Agent is available");
-            messageElement.innerHTML = "Agent is offline";
+            // messageElement.innerHTML = "Agent is offline";
 
         }
     }

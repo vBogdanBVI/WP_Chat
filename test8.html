@@ -120,28 +120,6 @@
     function startChat() {
 
         console.log( 'Inside Start Chat' );
-        embedded_svc.liveAgentAPI.startChat({
-            directToAgentRouting: {
-                buttonId: "573Pw000002FmXp",
-                fallback: true
-            },
-            extraPrechatFormDetails: [
-                {
-                    "label": "First Name",
-                    "value": "Jonh2",
-                    "transcriptFields": ["FirstName__c"]
-                }, {
-                    "label": "Last Name",
-                    "value": "Doe2",
-                    "transcriptFields": ["LastName__c"]
-                }, {
-                    "label": "Email",
-                    "value": "Doe2@gmail.com",
-                    "transcriptFields": ["Email__c"]
-                }
-            ]
-        });
-
 
         const fName = document.getElementById("fName");
         console.log('fName ' + fName.value);
@@ -169,39 +147,41 @@
         console.log(arr);
 
 
-        /*
-        // Объявление переменных для имен
-let name1 = "Анна";
-let name2 = "Иван";
-let name3 = "Мария";
+        embedded_svc.liveAgentAPI.startChat({
+            directToAgentRouting: {
+                buttonId: "573Pw000002FmXp",
+                fallback: true
+            },
+            extraPrechatFormDetails: arr
+        });
 
-// Объявление массива объектов с использованием переменных
-let students = [
-    {
-        name: name1,
-        age: 10,
-        grade: 4
-    },
-    {
-        name: name2,
-        age: 11,
-        grade: 5
-    },
-    {
-        name: name3,
-        age: 10,
-        grade: 4
-    }
-];
-
-// Доступ к свойствам объектов
-console.log(students[0].name); // Выведет: Анна
-console.log(students[1].name); // Выведет: Иван
-console.log(students[2].name); // Выведет: Мария
-
-         */
+        //
+        // embedded_svc.liveAgentAPI.startChat({
+        //     directToAgentRouting: {
+        //         buttonId: "573Pw000002FmXp",
+        //         fallback: true
+        //     },
+        //     extraPrechatFormDetails: [
+        //         {
+        //             "label": "First Name",
+        //             "value": "Jonh2",
+        //             "transcriptFields": ["FirstName__c"]
+        //         }, {
+        //             "label": "Last Name",
+        //             "value": "Doe2",
+        //             "transcriptFields": ["LastName__c"]
+        //         }, {
+        //             "label": "Email",
+        //             "value": "Doe2@gmail.com",
+        //             "transcriptFields": ["Email__c"]
+        //         }
+        //     ]
+        // });
+        //
 
 
+
+        console.log( 'end Start Chat' );
 
     }
 

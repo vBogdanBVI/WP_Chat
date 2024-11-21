@@ -22,6 +22,7 @@
 
 <input type="button" value="Start Chat" onclick="startChat();"/><br/><br/><br/>
 <input type="button" value="Clear Chat Session" onclick="clearSession();"/><br/>
+<input type="button" value="test" onclick="test();"/><br/>
 
 <!--
     Snipped Code from Embedded Service Deployment
@@ -167,12 +168,76 @@
 
         console.log(arr);
 
+
+        /*
+        // Объявление переменных для имен
+let name1 = "Анна";
+let name2 = "Иван";
+let name3 = "Мария";
+
+// Объявление массива объектов с использованием переменных
+let students = [
+    {
+        name: name1,
+        age: 10,
+        grade: 4
+    },
+    {
+        name: name2,
+        age: 11,
+        grade: 5
+    },
+    {
+        name: name3,
+        age: 10,
+        grade: 4
+    }
+];
+
+// Доступ к свойствам объектов
+console.log(students[0].name); // Выведет: Анна
+console.log(students[1].name); // Выведет: Иван
+console.log(students[2].name); // Выведет: Мария
+
+         */
+
+
+
     }
 
     function clearSession() {
         console.log( 'Inside Start Chat' );
         embedded_svc.liveAgentAPI.clearSession();
 
+    }
+
+    function test() {
+        console.log( 'test' );
+
+        const fName = document.getElementById("fName");
+        console.log('fName ' + fName.value);
+        const lName = document.getElementById("lName");
+        console.log('fName ' + lName.value);
+        const emailVar = document.getElementById("email");
+        console.log('fName ' + emailVar.value);
+
+        let arr = [
+            {
+                "label": "First Name",
+                "value": fName.value,
+                "transcriptFields": ["FirstName__c"]
+            }, {
+                "label": "Last Name",
+                "value": lName.value,
+                "transcriptFields": ["LastName__c"]
+            }, {
+                "label": "Email",
+                "value": emailVar.value,
+                "transcriptFields": ["Email__c"]
+            }
+        ];
+
+        console.log(arr);
     }
 </script>
 </body>

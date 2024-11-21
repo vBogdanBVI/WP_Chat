@@ -1,138 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <title>Custom Chat Button</title>-->
-<!--    <style>-->
-<!--        /* Custom CSS for the chat button */-->
-<!--        #customChatButton {-->
-<!--            position: fixed;-->
-<!--            bottom: 20px; /* Position the button at the bottom */-->
-<!--            right: 20px;  /* Position the button at the right */-->
-<!--            background-color: #4CAF50; /* Green background */-->
-<!--            border: none; /* Remove borders */-->
-<!--            color: white; /* White text */-->
-<!--            padding: 15px 32px; /* Button padding */-->
-<!--            text-align: center; /* Center the text */-->
-<!--            text-decoration: none; /* Remove underline */-->
-<!--            display: inline-block; /* Inline-block display */-->
-<!--            font-size: 16px; /* Font size */-->
-<!--            border-radius: 8px; /* Rounded corners */-->
-<!--            cursor: pointer; /* Pointer cursor on hover */-->
-<!--            z-index: 1000; /* Ensure the button is on top */-->
-<!--        }-->
-<!--    </style>-->
-<!--</head>-->
+
 <body>
-<!--<button id="customChatButton" onclick="startChat()">Chat with us</button>-->
-
-<!--<script type='text/javascript'>-->
-<!--    // Load Embedded Service Chat-->
-<!--    var initESW = function(gslbBaseURL) {-->
-<!--        console.log('initESW1');-->
-
-<!--        embedded_svc.settings.displayHelpButton = false; // Hide the default help button-->
-<!--        embedded_svc.settings.language = ''; // For setting the language-->
-
-<!--        // Initialize the chat-->
-<!--        // embedded_svc.init(-->
-<!--        //     'https://yourInstance.force.com',-->
-<!--        //     'https://yourInstance.my.salesforce.com',-->
-<!--        //     gslbBaseURL,-->
-<!--        //     'YOUR_EMBEDDED_SERVICE_DEPLOYMENT_ID',-->
-<!--        //     'YOUR_ORG_ID'-->
-<!--        // );-->
-
-
-<!--        // Initialize the chat-->
-
-<!--        embedded_svc.init(-->
-<!--            'https://tipico&#45;&#45;wordpress.sandbox.my.salesforce.com',-->
-<!--            'https://tipico&#45;&#45;wordpress.sandbox.my.salesforce-sites.com/chat',-->
-<!--            gslbBaseURL,-->
-<!--            '00DPw000006X0HC',-->
-<!--            'testWP',-->
-<!--            {-->
-<!--                baseLiveAgentContentURL: 'https://c.la12s-core1.sfdc-cehfhs.salesforceliveagent.com/content',-->
-<!--                deploymentId: '572Pw000004yHRt',-->
-<!--                buttonId: '573Pw000002FmXp',-->
-<!--                baseLiveAgentURL: 'https://d.la12s-core1.sfdc-cehfhs.salesforceliveagent.com/chat',-->
-<!--                eswLiveAgentDevName: 'testWP',-->
-<!--                isOfflineSupportEnabled: false-->
-<!--            }-->
-<!--        );-->
-
-<!--        // embedded_svc.init(-->
-<!--        //     'https://tipico&#45;&#45;wordpress.sandbox.my.salesforce.com',-->
-<!--        //     'https://tipico&#45;&#45;wordpress.sandbox.my.salesforce-sites.com/chat',-->
-<!--        //     gslbBaseURL,-->
-<!--        //     '00DPw000006X0HC',-->
-<!--        //     '04IPw0000009Ys5'-->
-<!--        // );-->
-
-<!--        console.log('initESW2');-->
-
-<!--    };-->
-
-<!--    // Function to start chat-->
-<!--    function startChat() {-->
-<!--        console.log('startChat1');-->
-<!--        if (!window.embedded_svc) {-->
-<!--            console.log('startChat2');-->
-
-<!--            var s = document.createElement('script');-->
-<!--            s.setAttribute('src', 'https://tipico&#45;&#45;wordpress.sandbox.my.salesforce.com/embeddedservice/5.0/esw.min.js');-->
-<!--            s.onload = function() {-->
-<!--                initESW(null);-->
-<!--                // embedded_svc.startChat();-->
-<!--                embedded_svc.liveAgentAPI.startChat({-->
-<!--                    directToAgentRouting: {-->
-<!--                        buttonId: '573Pw000002FmXp',-->
-<!--                        // userId: “”,-->
-<!--                        fallback: true-->
-<!--                    },-->
-<!--                    extraPrechatInfo: [],-->
-<!--                    extraPrechatFormDetails: []-->
-<!--                });-->
-<!--            };-->
-<!--            document.body.appendChild(s);-->
-<!--        } else {-->
-<!--            console.log('startChat3');-->
-
-<!--            embedded_svc.liveAgentAPI.startChat({-->
-<!--                directToAgentRouting: {-->
-<!--                    buttonId: '573Pw000002FmXp',-->
-<!--                    // userId: “”,-->
-<!--                    fallback: true-->
-<!--                },-->
-<!--                extraPrechatInfo: [],-->
-<!--                extraPrechatFormDetails: []-->
-<!--            });-->
-<!--        }-->
-<!--        console.log('startChat4');-->
-
-<!--    }-->
-
-<!--    // Load the Embedded Service script when the page is ready-->
-<!--    document.addEventListener("DOMContentLoaded", function() {-->
-<!--        var s = document.createElement('script');-->
-<!--        s.setAttribute('src', 'https://yourInstance.force.com/embeddedservice/5.0/esw.min.js');-->
-<!--        s.onload = function() {-->
-<!--            initESW(null);-->
-<!--        };-->
-<!--        document.body.appendChild(s);-->
-<!--    });-->
-<!--</script>-->
-
-
-
-
-
-
-
-
-
-
 
 <input type="button" value="Start Chat" onclick="startChat();"/><br/><br/><br/>
 <input type="button" value="Clear Chat Session" onclick="clearSession();"/><br/>
@@ -174,15 +43,15 @@
         embedded_svc.settings.extraPrechatFormDetails = [
             {
                 "label": "First Name",
-                "value": "Jonh",
+                "value": "Jonh1",
                 "transcriptFields": ["FirstName__c"]
             }, {
                 "label": "Last Name",
-                "value": "Doe",
+                "value": "Doe1",
                 "transcriptFields": ["LastName__c"]
             }, {
                 "label": "Email",
-                "value": "Doe@gmail.com",
+                "value": "Doe1@gmail.com",
                 "transcriptFields": ["Email__c"]
             }
         ];
@@ -241,15 +110,15 @@
             extraPrechatFormDetails: [
                 {
                     "label": "First Name",
-                    "value": "Jonh",
+                    "value": "Jonh2",
                     "transcriptFields": ["FirstName__c"]
                 }, {
                     "label": "Last Name",
-                    "value": "Doe",
+                    "value": "Doe2",
                     "transcriptFields": ["LastName__c"]
                 }, {
                     "label": "Email",
-                    "value": "Doe@gmail.com",
+                    "value": "Doe2@gmail.com",
                     "transcriptFields": ["Email__c"]
                 }
             ]

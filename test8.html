@@ -45,30 +45,30 @@
 
 
         // Initialize the chat
-        //
-        // embedded_svc.init(
-        //     'https://tipico--wordpress.sandbox.my.salesforce.com',
-        //     'https://tipico--wordpress.sandbox.my.salesforce-sites.com/chat',
-        //     gslbBaseURL,
-        //     '00DPw000006X0HC',
-        //     'testWP',
-        //     {
-        //         baseLiveAgentContentURL: 'https://c.la12s-core1.sfdc-cehfhs.salesforceliveagent.com/content',
-        //         deploymentId: '572Pw000004yHRt',
-        //         buttonId: '573Pw000002FmXp',
-        //         baseLiveAgentURL: 'https://d.la12s-core1.sfdc-cehfhs.salesforceliveagent.com/chat',
-        //         eswLiveAgentDevName: 'testWP',
-        //         isOfflineSupportEnabled: false
-        //     }
-        // );
 
         embedded_svc.init(
             'https://tipico--wordpress.sandbox.my.salesforce.com',
             'https://tipico--wordpress.sandbox.my.salesforce-sites.com/chat',
             gslbBaseURL,
             '00DPw000006X0HC',
-            '04IPw0000009Ys5'
+            'testWP',
+            {
+                baseLiveAgentContentURL: 'https://c.la12s-core1.sfdc-cehfhs.salesforceliveagent.com/content',
+                deploymentId: '572Pw000004yHRt',
+                buttonId: '573Pw000002FmXp',
+                baseLiveAgentURL: 'https://d.la12s-core1.sfdc-cehfhs.salesforceliveagent.com/chat',
+                eswLiveAgentDevName: 'testWP',
+                isOfflineSupportEnabled: false
+            }
         );
+
+        // embedded_svc.init(
+        //     'https://tipico--wordpress.sandbox.my.salesforce.com',
+        //     'https://tipico--wordpress.sandbox.my.salesforce-sites.com/chat',
+        //     gslbBaseURL,
+        //     '00DPw000006X0HC',
+        //     '04IPw0000009Ys5'
+        // );
 
         console.log('initESW2');
 

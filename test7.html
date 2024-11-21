@@ -1,0 +1,106 @@
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1,
+maximum-scale=1, user-scalable=0">
+    <script type='text/javascript'>
+        function onBodyLoaded() {
+            /**
+             * Toggles the inert attribute on background content for the page.
+             * The inert attribute needs to be set on parent level DOM
+             * nodes. Inert will set the DOM node aria-hidden attribute and
+             * and set tab-index="-1" on all children so that screen readers
+             * can’t access the content.
+             */
+            function toggleInert(disabled) {
+                let bodyElem = document.getElementById("body-content");
+                if (bodyElem) {
+                    bodyElem.inert = disabled;
+                }
+            }
+
+          // Add hooks to toggle inert on our page when Embedded Chat
+          // changes state.
+            function addA11yHooks() {
+                embedded_svc.addEventHandler('afterMaximize', function () {
+                    toggleInert(true);
+                });
+                embedded_svc.addEventHandler('afterDestroy', function () {
+                    toggleInert(false);
+                });
+                embedded_svc.addEventHandler('afterMinimize', function () {
+                    toggleInert(false);
+                });
+            }
+
+            // Early out for desktop.
+            if (embedded_svc.isDesktop()) {
+                return;
+            }
+          // Add hooks for mobile.
+            addA11yHooks();
+        }
+
+    </script>
+</head>
+<body onload="onBodyLoaded()">
+<div id="body-content">
+    <h1>Welcome to the best website!</h1>
+    <style type='text/css'>
+        .embeddedServiceHelpButton .helpButton .uiButton {
+            background-color: #A70BA5;
+            font-family: "Comic Sans MS", sans-serif;
+        }
+
+        .embeddedServiceHelpButton .helpButton .uiButton:focus {
+            outline: 1px solid #A70BA5;
+        }
+
+        .previews img {
+            max-width: 100%;
+            border-radius: 10px;
+        }
+
+        .chat-content a {
+            color: #fff;
+        }
+    </style>
+</div>
+
+
+<script type='text/javascript' src='https://service.force.com/embeddedservice/5.0/esw.min.js'></script>
+<script type='text/javascript'>
+    var initESW = function (gslbBaseURL) {
+        embedded_svc.settings.displayHelpButton = true; //Or false
+        embedded_svc.settings.language = ''; //For example, enter 'en' or 'en-US'
+        embedded_svc.settings.enabledFeatures = ['LiveAgent'];
+        embedded_svc.settings.entryFeature = 'LiveAgent';
+
+      embedded_svc.init(
+              'https://tipico--wordpress.sandbox.my.salesforce.com',
+              'https://tipico--wordpress.sandbox.my.salesforce-sites.com/chat',
+              gslbBaseURL,
+              '00DPw000006X0HC',
+              'testWP',
+              {
+                baseLiveAgentContentURL: 'https://c.la12s-core1.sfdc-cehfhs.salesforceliveagent.com/content',
+                deploymentId: '572Pw000004yHRt',
+                buttonId: '573Pw000002FmXp',
+                baseLiveAgentURL: 'https://d.la12s-core1.sfdc-cehfhs.salesforceliveagent.com/chat',
+                eswLiveAgentDevName: 'testWP',
+                isOfflineSupportEnabled: false
+              }
+      );
+    };
+    if (!window.embedded_svc) {
+        var s = document.createElement('script');
+        s.setAttribute('src', 'https://tipico--wordpress.sandbox.my.salesforce.com/embeddedservice/5.0/esw.min.js');
+        s.onload = function () {
+            initESW(null);
+        };
+        document.body.appendChild(s);
+    } else {
+        initESW('https://service.force.com');
+    }
+</script>
+</body>
+</html>

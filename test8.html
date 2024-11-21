@@ -1,15 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Start Chat Automatically</title>
-  <script type='text/javascript'>
-    // Function to load and initialize Embedded Service Chat
-    var initESW = function(gslbBaseURL) {
-      embedded_svc.settings.displayHelpButton = false; // Hide the default help button
-      embedded_svc.settings.language = ''; // For setting the language
+    <meta charset="UTF-8">
+    <title>Custom Chat Button</title>
+    <style>
+        /* Custom CSS for the chat button */
+        #customChatButton {
+            position: fixed;
+            bottom: 20px; /* Position the button at the bottom */
+            right: 20px;  /* Position the button at the right */
+            background-color: #4CAF50; /* Green background */
+            border: none; /* Remove borders */
+            color: white; /* White text */
+            padding: 15px 32px; /* Button padding */
+            text-align: center; /* Center the text */
+            text-decoration: none; /* Remove underline */
+            display: inline-block; /* Inline-block display */
+            font-size: 16px; /* Font size */
+            border-radius: 8px; /* Rounded corners */
+            cursor: pointer; /* Pointer cursor on hover */
+            z-index: 1000; /* Ensure the button is on top */
+        }
+    </style>
+</head>
+<body>
+<button id="customChatButton" onclick="startChat()">Chat with us</button>
 
-      // Initialize the chat
+<script type='text/javascript'>
+    // Load Embedded Service Chat
+    var initESW = function(gslbBaseURL) {
+        embedded_svc.settings.displayHelpButton = false; // Hide the default help button
+        embedded_svc.settings.language = ''; // For setting the language
+
+        // Initialize the chat
+        // embedded_svc.init(
+        //     'https://yourInstance.force.com',
+        //     'https://yourInstance.my.salesforce.com',
+        //     gslbBaseURL,
+        //     'YOUR_EMBEDDED_SERVICE_DEPLOYMENT_ID',
+        //     'YOUR_ORG_ID'
+        // );
+
+
         embedded_svc.init(
             'https://tipico--wordpress.sandbox.my.salesforce.com',
             'https://tipico--wordpress.sandbox.my.salesforce-sites.com/chat',
@@ -25,37 +57,32 @@
                 isOfflineSupportEnabled: false
             }
         );
-
-      // Automatically start the chat
-      embedded_svc.startChat({
-        prepopulatedPrechatFields: {
-          FirstName: "John",
-          LastName: "Doe",
-          Email: "john.doe@example.com"
-        },
-        directToButtonRouting: function(prechatFormData) {
-          return '573Pw000002FmXp'; // Replace with your Chat Button ID
-        }
-      });
     };
 
-    // Function to load the Embedded Service script
-    function loadESW() {
-      var s = document.createElement('script');
-      s.setAttribute('src', 'https://tipico--wordpress.sandbox.my.salesforce.com/embeddedservice/5.0/esw.min.js');
-      s.onload = function() {
-        initESW(null);
-      };
-      document.body.appendChild(s);
+    // Function to start chat
+    function startChat() {
+        if (!window.embedded_svc) {
+            var s = document.createElement('script');
+            s.setAttribute('src', 'https://tipico--wordpress.sandbox.my.salesforce.com/embeddedservice/5.0/esw.min.js');
+            s.onload = function() {
+                initESW(null);
+                embedded_svc.startChat();
+            };
+            document.body.appendChild(s);
+        } else {
+            embedded_svc.startChat();
+        }
     }
 
     // Load the Embedded Service script when the page is ready
     document.addEventListener("DOMContentLoaded", function() {
-      loadESW();
+        var s = document.createElement('script');
+        s.setAttribute('src', 'https://yourInstance.force.com/embeddedservice/5.0/esw.min.js');
+        s.onload = function() {
+            initESW(null);
+        };
+        document.body.appendChild(s);
     });
-  </script>
-</head>
-<body>
-<!-- No button needed as the chat starts automatically -->
+</script>
 </body>
 </html>

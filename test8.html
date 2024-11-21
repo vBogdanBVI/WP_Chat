@@ -107,6 +107,9 @@
 
     </head>
 
+
+
+
     <body>
     <div class="container">
         <h1>Custom Form</h1>
@@ -246,12 +249,10 @@
                 var messageElement      = document.getElementById("messageId");
 
                 if (elementEnabled && elementEnabled.length > 0) {
-                    console.log("Agent is available");
                     messageElement.innerHTML = "Agent is available";
                     messageElement.className = "green";
                 }
                 if (elementDisabled && elementDisabled.length > 0) {
-                    console.log("Agent is offline");
                     messageElement.innerHTML = "Agent is offline";
                     messageElement.className = "red";
                 }

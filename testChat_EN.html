@@ -276,6 +276,7 @@
         });
 
 
+
         embedded_svc.addEventHandler("onHelpButtonClick", function(data) {
             console.log("onHelpButtonClick event was fired.");
         });
@@ -316,13 +317,7 @@
             console.log("onChatTransferSuccessful event was fired.  liveAgentSessionKey was " + data.liveAgentSessionKey);
         });
 
-        embedded_svc.addEventHandler("onChatEndedByChasitor", function(data) {
-            console.log("onChatEndedByChasitor event was fired.  liveAgentSessionKey was " + data.liveAgentSessionKey);
-        });
 
-        embedded_svc.addEventHandler("onChatEndedByAgent", function(data) {
-            console.log("onChatEndedByAgent event was fired.  liveAgentSessionKey was " + data.liveAgentSessionKey);
-        });
 
         embedded_svc.addEventHandler("onQueueUpdate", function(data) {
             console.log("onQueueUpdate event was fired. liveAgentSessionKey was " + data.liveAgentSessionKey + "and queuePosition was " + data.queuePosition);
@@ -355,6 +350,68 @@
         embedded_svc.addEventHandler("onSettingsCallCompleted", function(data) {
             console.log("onSettingsCallCompleted event was fired. Agent availability status is " + data.isAgentAvailable ? "online": "offline");
         });
+
+        embedded_svc.addEventHandler("onAvailability", function(data) {
+            console.log("onAvailability event was fired. Agent availability status is " + data.isAgentAvailable ? "online": "offline");
+        });
+
+
+
+
+        embedded_svc.addEventHandler("onChatEndedByChasitor", function(data) {
+            console.log("onChatEndedByChasitor event was fired.  liveAgentSessionKey was " + data.liveAgentSessionKey);
+        });
+
+        embedded_svc.addEventHandler("onChatEndedByAgent", function(data) {
+            console.log("onChatEndedByAgent event was fired.  liveAgentSessionKey was " + data.liveAgentSessionKey);
+
+            setTimeout(function () {
+                /*
+                var searchBtn = document.getElementById("closeBtn");
+                if(!searchBtn){
+                    var btn = document.createElement("BUTTON");
+                    btn.id = "closeBtn";
+                    btn.innerHTML = "Close Chat";
+                    btn.className = "endChatButton postChatButton uiButton--default uiButton embeddedServiceSidebarButton";
+                    btn.addEventListener("click", function (e){
+                        e.preventDefault();
+                        console.log('Clear Session Clicked');
+                        embedded_svc.liveAgentAPI.clearSession();
+                        var chatHeader = document.getElementsByTagName('embeddedservice-chat-header');
+                        if(chatHeader && chatHeader.length > 0){
+                            var close = chatHeader[0].getElementsByClassName("closeButton");
+                            if(close && close.length > 0){
+                                close[0].click();
+                            }
+                        }
+                    });
+                    var myDiv = document.getElementsByClassName('endChatContainer');
+                    myDiv[0].appendChild(btn);
+                }
+                */
+
+
+                // Находим все кнопки с классом 'myButtonClass'
+                var buttons = document.querySelectorAll('.endChatButton');
+                // Выводим количество найденных кнопок в консоль
+                console.log('Найдено кнопок:', buttons.length);
+                // Пробегаемся по каждой кнопке и выводим ее ID в консоль
+                for (var i = 0; i < buttons.length; i++) {
+                    console.log('ID кнопки:', buttons[i].id)
+                }
+
+
+                // Находим все кнопки с классом 'myButtonClass'
+                var buttons = document.querySelectorAll('.closeButton');
+                // Выводим количество найденных кнопок в консоль
+                console.log('Найдено кнопок:', buttons.length);
+                // Пробегаемся по каждой кнопке и выводим ее ID в консоль
+                for (var i = 0; i < buttons.length; i++) {
+                    console.log('ID кнопки:', buttons[i].id)
+                }
+            }, 1000);
+        });
+
 
         embedded_svc.addEventHandler("onAvailability", function(data) {
             console.log("onAvailability event was fired. Agent availability status is " + data.isAgentAvailable ? "online": "offline");

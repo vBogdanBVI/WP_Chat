@@ -90,6 +90,31 @@
             background-color: red;
         }
 
+
+        /* Стили для модального окна */
+        .modal {
+            display: none; /* Скрываем модальное окно по умолчанию */
+            position: fixed; /* Фиксированное положение */
+            z-index: 1; /* На переднем плане */
+            left: 0;
+            top: 0;
+            width: 100%; /* Полная ширина */
+            height: 100%; /* Полная высота */
+            overflow: auto; /* Если нужно прокручивать */
+            background-color: rgb(0,0,0); /* Черный фоновый цвет */
+            background-color: rgba(0,0,0,0.4); /* Прозрачный черный */
+        }
+        /* Стиль для содержимого модального окна */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* Центрирование */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* Ширина */
+        }
+
+
+
         .embeddedServiceHelpButton .helpButton .uiButton {
             background-color: #c8102e;
             font-family: "Source Sans Pro", sans-serif;
@@ -131,6 +156,16 @@
 
     <p id="messageId">Agent is available</p>
     <!--        <button onclick="checkAgentAvailability()">Check Agent status</button>-->
+
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>Это пример модального окна с кнопками!</p>
+            <button class="modal-button" onclick="button1Clicked()">Кнопка 1</button>
+            <button class="modal-button" onclick="button2Clicked()">Кнопка 2</button>
+        </div>
+    </div>
 </div>
 
 
@@ -205,21 +240,21 @@
         // });
 
         embedded_svc.addEventHandler("afterDestroy", function() {
-            var height = document.querySelector('.helpButton').clientHeight;
-            var width = document.querySelector('.helpButton').clientWidth;
-
             alert('Кнопка Close 222 нажата!');
+            var modal = document.getElementById("myModal");
+            modal.style.display = "block";
 
-
-
-            window.parent.postMessage({
-                frameHeight: height,
-                frameWidth: width
-            }, '*');
         });
 
 
     };
+
+    var modal = document.getElementById("myModal");
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
 
     if (!window.embedded_svc) {
         var s = document.createElement('script');
@@ -320,111 +355,6 @@
             var chatKey = data.liveAgentSessionKey;
             console.log("liveAgentSessionKey was " + chatKey);
         });
-
-
-
-        embedded_svc.addEventHandler("onChatEndedByChasitor", function(data) {
-            console.log("onChatEndedByChasitor event was fired.  liveAgentSessionKey was " + data.liveAgentSessionKey);
-
-
-            setTimeout(function () {
-
-                // Находим все кнопки с классом 'myButtonClass'
-                var buttons = document.querySelectorAll('.endChatButton');
-                // Выводим количество найденных кнопок в консоль
-                console.log('111 - Найдено кнопок endChatButton:', buttons.length);
-                // Пробегаемся по каждой кнопке и выводим ее ID в консоль
-                for (var i = 0; i < buttons.length; i++) {
-                    console.log('ID кнопки:', buttons[i].id)
-                    console.log('--------------------')
-                    console.log(JSON.stringify(buttons[i]))
-                    console.log('--------------------')
-
-                    buttons[i].onclick = function() {
-
-                        console.log("button - 567")
-                        alert('Кнопка Close нажата!');
-                    }
-                }
-
-
-
-
-
-
-                // Находим все кнопки с классом 'myButtonClass'
-                var buttons = document.querySelectorAll('.closeButton');
-                // Выводим количество найденных кнопок в консоль
-                console.log('222 - Найдено кнопок closeButton:', buttons.length);
-                // Пробегаемся по каждой кнопке и выводим ее ID в консоль
-                for (var i = 0; i < buttons.length; i++) {
-                    console.log('ID кнопки:', buttons[i].id)
-                }
-
-            }, 1000);
-        });
-
-        embedded_svc.addEventHandler("onChatEndedByAgent", function(data) {
-            console.log("onChatEndedByAgent event was fired.  liveAgentSessionKey was " + data.liveAgentSessionKey);
-
-            setTimeout(function () {
-                /*
-                var searchBtn = document.getElementById("closeBtn");
-                if(!searchBtn){
-                    var btn = document.createElement("BUTTON");
-                    btn.id = "closeBtn";
-                    btn.innerHTML = "Close Chat";
-                    btn.className = "endChatButton postChatButton uiButton--default uiButton embeddedServiceSidebarButton";
-                    btn.addEventListener("click", function (e){
-                        e.preventDefault();
-                        console.log('Clear Session Clicked');
-                        embedded_svc.liveAgentAPI.clearSession();
-                        var chatHeader = document.getElementsByTagName('embeddedservice-chat-header');
-                        if(chatHeader && chatHeader.length > 0){
-                            var close = chatHeader[0].getElementsByClassName("closeButton");
-                            if(close && close.length > 0){
-                                close[0].click();
-                            }
-                        }
-                    });
-                    var myDiv = document.getElementsByClassName('endChatContainer');
-                    myDiv[0].appendChild(btn);
-                }
-                */
-
-
-                // Находим все кнопки с классом 'myButtonClass'
-                var buttons = document.querySelectorAll('.endChatButton');
-                // Выводим количество найденных кнопок в консоль
-                console.log('333 - Найдено кнопок endChatButton:', buttons.length);
-                // Пробегаемся по каждой кнопке и выводим ее ID в консоль
-                for (var i = 0; i < buttons.length; i++) {
-                    console.log('ID кнопки:', buttons[i].id)
-                    console.log('--------------------')
-                    console.log(JSON.stringify(buttons[i]))
-                    console.log('--------------------')
-
-                    buttons[i].onclick = function() {
-
-                        console.log("button - 567")
-                        alert('Кнопка Close нажата!');
-                    }
-                }
-
-
-                // Находим все кнопки с классом 'myButtonClass'
-                var buttons = document.querySelectorAll('.closeButton');
-                // Выводим количество найденных кнопок в консоль
-                console.log('444 - Найдено кнопок closeButton:', buttons.length);
-                // Пробегаемся по каждой кнопке и выводим ее ID в консоль
-                for (var i = 0; i < buttons.length; i++) {
-                    console.log('ID кнопки:', buttons[i].id)
-                }
-
-
-            }, 1000);
-        });
-
 
 
     }

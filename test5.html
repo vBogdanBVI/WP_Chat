@@ -1,47 +1,461 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
-<h1>Let’s start chatting...</h1>
-     <br />
-     Click the big button to start a chat.
-     <br />
-     <!--Button Code-->
-     <img id="liveagent_button_online_573280000004G6W" style="display: none; border: 0px none; cursor: pointer" 
-       onclick="liveagent.startChat('573280000004G6W')" 
-       src="https://[your-site]Chatty/resource/1476691397000/OnlineButton" />
-  <img id="liveagent_button_offline_573280000004G6W" style="display: none; border: 0px none; " src="https://[Your-Domain Name]/resource/1476691381000/OfflineButton" />
-  
-  
-  <script type="text/javascript">
-     if (!window._laq) { window._laq = []; }
-     window._laq.push(function(){liveagent.showWhenOnline('573280000004G6W', document.getElementById('liveagent_button_online_573280000004G6W'));
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
 
-                                 
-     liveagent.showWhenOffline('573280000004G6W', document.getElementById('liveagent_button_offline_573280000004G6W'));
-     });</script>
-     
-     <!--Deployment Code-->  
-     <script type='text/javascript' src='https://c.la10.salesforceliveagent.com/content/g/js/38.0/deployment.js'></script>      
-     <script type='text/javascript'>
-     liveagent.init('https://d.la10.salesforceliveagent.com/chat', '57228000000L2SV', '00D28000001Jm90');
-     </script>
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form p {
+            margin: 15px 0;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input[type="button"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        input[type="button"]:hover {
+            background-color: #45a049;
+        }
+
+        button {
+            background-color: #008CBA;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #007bb5;
+        }
 
 
-<button lwc-56vbshdpqil="" class="closeButton" title="Close dialog" aria-live="off">
-    <span class="assistiveText" lwc-56vbshdpqil="">Close dialog</span>
-    <lightning-icon lwc-56vbshdpqil="" icon-name="utility:close" class="slds-icon-utility-close slds-icon_container"
-                    lwc-4897l11qtae-host="">
-        <span lwc-4897l11qtae="" style="--sds-c-icon-color-background: var(--slds-c-icon-color-background, transparent)"
-                                                  part="boundary">
-            <lightning-primitive-icon lwc-4897l11qtae="" exportparts="icon" size="x-small" variant="" lwc-3bq099ugqsh-host="">
-                <svg focusable="false" aria-hidden="true" viewBox="0 0 520 520" part="icon" lwc-3bq099ugqsh="" data-key="close" class="slds-icon slds-icon-text-default slds-icon_x-small">
-                <g lwc-3bq099ugqsh="">
-                    <path d="M310 254l130-131c6-6 6-15 0-21l-20-21c-6-6-15-6-21 0L268 212a10 10 0 01-14 0L123 80c-6-6-15-6-21 0l-21 21c-6 6-6 15 0 21l131 131c4 4 4 10 0 14L80 399c-6 6-6 15 0 21l21 21c6 6 15 6 21 0l131-131a10 10 0 0114 0l131 131c6 6 15 6 21 0l21-21c6-6 6-15 0-21L310 268a10 10 0 010-14z"
-            lwc-3bq099ugqsh=""></path>
-                </g>
-                </svg>
-            </lightning-primitive-icon>
-        </span>
-    </lightning-icon>
-</button>
+        #messageId {
+            color: #888;
+            margin-top: 20px;
+            padding: 10px;
+            font-size: 12px;
+            border-radius: 4px;
+            text-align: center;
+        }
 
+        .green {
+            background-color: lightblue;
+        }
+
+        .red {
+            background-color: red;
+        }
+
+        .embeddedServiceHelpButton .helpButton .uiButton {
+            background-color: #c8102e;
+            font-family: "Source Sans Pro", sans-serif;
+        }
+
+        .embeddedServiceHelpButton .helpButton .uiButton:focus {
+            outline: 1px solid #c8102e;
+        }
+    </style>
+
+
+    <title>Custom Form</title>
+
+</head>
+
+
+
+
+<body>
+<div class="container">
+    <h1>Custom Form</h1>
+    <form id="theForm">
+        <p>
+            <label for="fName">First Name:</label>
+            <input id="fName" name="fName" value="Some First Name" type="text"/>
+        </p>
+        <p>
+            <label for="lName">Last Name:</label>
+            <input id="lName" name="lName" value="Some Last Name" type="text"/>
+        </p>
+        <p>
+            <label for="email">Email:</label>
+            <input id="email" value="Some email" name="email" type="text"/>
+        </p>
+    </form>
+    <input type="button" value="Start Chat" onclick="startChat();"/>
+    </br>
+    <input type="button" value="Clear Chat Session" onclick="clearSession();"/>
+
+    <p id="messageId">Agent is available</p>
+    <!--        <button onclick="checkAgentAvailability()">Check Agent status</button>-->
+</div>
+
+
+
+
+
+
+</body>
+<script type='text/javascript' src='https://service.force.com/embeddedservice/5.0/esw.min.js'></script>
+<script type='text/javascript'>
+    var initESW = function (gslbBaseURL) {
+        embedded_svc.settings.displayHelpButton = false; //Or false
+        embedded_svc.settings.language = ''; //For example, enter 'en' or 'en-US'
+
+        //embedded_svc.settings.defaultMinimizedText = '...'; //(Defaults to Chat with an Expert)
+        //embedded_svc.settings.disabledMinimizedText = '...'; //(Defaults to Agent Offline)
+
+        //embedded_svc.settings.loadingText = ''; //(Defaults to Loading)
+        //embedded_svc.settings.storageDomain = 'yourdomain.com'; //(Sets the domain for your deployment so that visitors can navigate subdomains during a chat session)
+
+        // Settings for Chat
+        //embedded_svc.settings.directToButtonRouting = function(prechatFormData) {
+        // Dynamically changes the button ID based on what the visitor enters in the pre-chat form.
+        // Returns a valid button ID.
+        //};
+        //embedded_svc.settings.prepopulatedPrechatFields = {}; //Sets the auto-population of pre-chat form fields
+        //embedded_svc.settings.fallbackRouting = []; //An array of button IDs, user IDs, or userId_buttonId
+        //embedded_svc.settings.offlineSupportMinimizedText = '...'; //(Defaults to Contact Us)
+
+
+
+
+
+        embedded_svc.settings.enabledFeatures = ['LiveAgent'];
+        embedded_svc.settings.entryFeature = 'LiveAgent';
+
+        embedded_svc.init(
+            'https://tipico--wordpress.sandbox.my.salesforce.com',
+            'https://tipico--wordpress.sandbox.my.salesforce-sites.com/chat',
+            gslbBaseURL,
+            '00DPw000006X0HC',
+            'testWP',
+            {
+                baseLiveAgentContentURL: 'https://c.la12s-core1.sfdc-cehfhs.salesforceliveagent.com/content',
+                deploymentId: '572Pw000004yHRt',
+                buttonId: '573Pw000002FmXp',
+                baseLiveAgentURL: 'https://d.la12s-core1.sfdc-cehfhs.salesforceliveagent.com/chat',
+                eswLiveAgentDevName: 'testWP',
+                isOfflineSupportEnabled: false
+            }
+        );
+
+
+        // embedded_svc.addEventHandler("afterMinimize", function() {
+        //     var sidebar = document.querySelector('.embeddedServiceSidebarMinimizedDefaultUI');
+        //     var height = sidebar.clientHeight;
+        //     var width = sidebar.clientWidth;
+        //     window.parent.postMessage({
+        //         frameHeight: height,
+        //         frameWidth: width
+        //     }, '*');
+        // });
+        //
+        // embedded_svc.addEventHandler("afterMaximize", function() {
+        //     var container = document.querySelector('.dockableContainer');
+        //     var height = container.clientHeight;
+        //     var width = container.clientWidth;
+        //     window.parent.postMessage({
+        //         frameHeight: embedded_svc.settings.widgetHeight,
+        //         frameWidth: embedded_svc.settings.widgetWidth
+        //     }, '*');
+        // });
+
+        embedded_svc.addEventHandler("afterDestroy", function() {
+            var height = document.querySelector('.helpButton').clientHeight;
+            var width = document.querySelector('.helpButton').clientWidth;
+
+            alert('Кнопка Close 222 нажата!');
+
+
+
+            window.parent.postMessage({
+                frameHeight: height,
+                frameWidth: width
+            }, '*');
+        });
+
+
+    };
+
+    if (!window.embedded_svc) {
+        var s = document.createElement('script');
+        s.setAttribute('src', 'https://tipico--wordpress.sandbox.my.salesforce.com/embeddedservice/5.0/esw.min.js');
+        s.onload = function () {
+            initESW(null);
+        };
+        document.body.appendChild(s);
+    } else {
+        initESW('https://service.force.com');
+    }
+
+
+    function startChat() {
+        console.log('Inside Start Chat');
+
+
+        const fName     = document.getElementById("fName");
+        const lName     = document.getElementById("lName");
+        const emailVar  = document.getElementById("email");
+
+        let preChatVars = [
+            {
+                "label": "First Name",
+                "value": fName.value,
+                "transcriptFields": ["FirstName__c"]
+            }, {
+                "label": "Last Name",
+                "value": lName.value,
+                "transcriptFields": ["LastName__c"]
+            }, {
+                "label": "Email",
+                "value": emailVar.value,
+                "transcriptFields": ["Email__c"]
+            },{
+                "value": "CookieConsentPolicy=0:1; LSKey-c$CookieConsentPolicy=0:1; BrowserId=MiTP3LBFEe-59c9yTx49mA; _hjSessionUser_3335449=eyJpZCI6ImEwZmZiZTM0LTk4OWItNTkyYS04ZWJhLTVmNjE2OWNhNDczZCIsImNyZWF0ZWQiOjE3MzMwOTk2NzI1MzIsImV4aXN0aW5nIjp0cnVlfQ==; _hjSession_3335449=eyJpZCI6ImQ0MjI1ZGNiLTRlZjMtNDM1Zi1iZTIzLTM0ZTdiOTYyNDkyNCIsImMiOjE3MzMxMjQzNjczOTksInMiOjAsInIiOjAsInNiIjowLCJzciI6MCwic2UiOjAsImZzIjowLCJzcCI6MX0=",
+                "transcriptFields": ["CacheCookies__c"]
+            },{
+                "value": "TCL",
+                "transcriptFields": ["Entity__c"]
+            },{
+                "value": "Games",
+                "transcriptFields": ["Category__c"]
+            },{
+                "value": "Tipico",
+                "transcriptFields": ["Domain__c"]
+            },{
+                "value": "General questions",
+                "transcriptFields": ["Issue__c"]
+            },{
+                "value": "Tipico - Originalwetten",
+                "transcriptFields": ["Label__c"]
+            },{
+                "value": "German",
+                "transcriptFields": ["Language__c"]
+            },{
+                "value": "Helpcenter",
+                "transcriptFields": ["Origin__c"]
+            },{
+                "value": "test question",
+                "transcriptFields": ["Question__c"]
+            },{
+                "value": "2fba246c-2d5e-4eef-b45b-a838c7a12f38",
+                "transcriptFields": ["UUID__c"]
+            },{
+                "value": "Ailomailo@test.com",
+                "transcriptFields": ["Username__c"]
+            },{
+                "value": "Denmark",
+                "transcriptFields": ["country__c"]
+            },{
+                "value": "DESKTOP_WEB_RETH",
+                "transcriptFields": ["User_App__c"]
+            },{
+                "value": "User path: > Ein- & Auszahlungen > Thema Einzahlungen > Probleme bei der Einzahlung? > Live chat > Start chat",
+                "transcriptFields": ["Breadcrumbs_Trail__c"]
+            }
+        ];
+
+
+        embedded_svc.liveAgentAPI.startChat({
+            directToAgentRouting: {
+                buttonId: "573Pw000002FmXp",
+                fallback: true
+            },
+            extraPrechatFormDetails: preChatVars
+        });
+
+
+
+
+        // method to get ChatKey
+        embedded_svc.addEventHandler("onChatRequestSuccess", function (data) {
+            console.log("onChatRequestSuccess event was fired.  liveAgentSessionKey was " + data.liveAgentSessionKey);
+        });
+        // or this method to get ChatKey
+        embedded_svc.addEventHandler("onChatEstablished", function (data) {
+            var chatKey = data.liveAgentSessionKey;
+            console.log("liveAgentSessionKey was " + chatKey);
+        });
+
+
+
+        embedded_svc.addEventHandler("onChatEndedByChasitor", function(data) {
+            console.log("onChatEndedByChasitor event was fired.  liveAgentSessionKey was " + data.liveAgentSessionKey);
+
+
+            setTimeout(function () {
+
+                // Находим все кнопки с классом 'myButtonClass'
+                var buttons = document.querySelectorAll('.endChatButton');
+                // Выводим количество найденных кнопок в консоль
+                console.log('111 - Найдено кнопок endChatButton:', buttons.length);
+                // Пробегаемся по каждой кнопке и выводим ее ID в консоль
+                for (var i = 0; i < buttons.length; i++) {
+                    console.log('ID кнопки:', buttons[i].id)
+                    console.log('--------------------')
+                    console.log(JSON.stringify(buttons[i]))
+                    console.log('--------------------')
+
+                    buttons[i].onclick = function() {
+
+                        console.log("button - 567")
+                        alert('Кнопка Close нажата!');
+                    }
+                }
+
+
+
+
+
+
+                // Находим все кнопки с классом 'myButtonClass'
+                var buttons = document.querySelectorAll('.closeButton');
+                // Выводим количество найденных кнопок в консоль
+                console.log('222 - Найдено кнопок closeButton:', buttons.length);
+                // Пробегаемся по каждой кнопке и выводим ее ID в консоль
+                for (var i = 0; i < buttons.length; i++) {
+                    console.log('ID кнопки:', buttons[i].id)
+                }
+
+            }, 1000);
+        });
+
+        embedded_svc.addEventHandler("onChatEndedByAgent", function(data) {
+            console.log("onChatEndedByAgent event was fired.  liveAgentSessionKey was " + data.liveAgentSessionKey);
+
+            setTimeout(function () {
+                /*
+                var searchBtn = document.getElementById("closeBtn");
+                if(!searchBtn){
+                    var btn = document.createElement("BUTTON");
+                    btn.id = "closeBtn";
+                    btn.innerHTML = "Close Chat";
+                    btn.className = "endChatButton postChatButton uiButton--default uiButton embeddedServiceSidebarButton";
+                    btn.addEventListener("click", function (e){
+                        e.preventDefault();
+                        console.log('Clear Session Clicked');
+                        embedded_svc.liveAgentAPI.clearSession();
+                        var chatHeader = document.getElementsByTagName('embeddedservice-chat-header');
+                        if(chatHeader && chatHeader.length > 0){
+                            var close = chatHeader[0].getElementsByClassName("closeButton");
+                            if(close && close.length > 0){
+                                close[0].click();
+                            }
+                        }
+                    });
+                    var myDiv = document.getElementsByClassName('endChatContainer');
+                    myDiv[0].appendChild(btn);
+                }
+                */
+
+
+                // Находим все кнопки с классом 'myButtonClass'
+                var buttons = document.querySelectorAll('.endChatButton');
+                // Выводим количество найденных кнопок в консоль
+                console.log('333 - Найдено кнопок endChatButton:', buttons.length);
+                // Пробегаемся по каждой кнопке и выводим ее ID в консоль
+                for (var i = 0; i < buttons.length; i++) {
+                    console.log('ID кнопки:', buttons[i].id)
+                    console.log('--------------------')
+                    console.log(JSON.stringify(buttons[i]))
+                    console.log('--------------------')
+
+                    buttons[i].onclick = function() {
+
+                        console.log("button - 567")
+                        alert('Кнопка Close нажата!');
+                    }
+                }
+
+
+                // Находим все кнопки с классом 'myButtonClass'
+                var buttons = document.querySelectorAll('.closeButton');
+                // Выводим количество найденных кнопок в консоль
+                console.log('444 - Найдено кнопок closeButton:', buttons.length);
+                // Пробегаемся по каждой кнопке и выводим ее ID в консоль
+                for (var i = 0; i < buttons.length; i++) {
+                    console.log('ID кнопки:', buttons[i].id)
+                }
+
+
+            }, 1000);
+        });
+
+
+
+    }
+
+
+    function clearSession() {
+        embedded_svc.liveAgentAPI.clearSession();
+    }
+
+
+    function checkAgentAvailability() {
+        const elementEnabled    = document.getElementsByClassName('uiButton helpButtonEnabled');
+        const elementDisabled   = document.getElementsByClassName('uiButton helpButtonDisabled');
+
+        var messageElement      = document.getElementById("messageId");
+
+        if (elementEnabled && elementEnabled.length > 0) {
+            messageElement.innerHTML = "Agent is available";
+            messageElement.className = "green";
+        }
+        if (elementDisabled && elementDisabled.length > 0) {
+            messageElement.innerHTML = "Agent is offline";
+            messageElement.className = "red";
+        }
+    }
+
+
+    window.setInterval(function () {
+        checkAgentAvailability();
+    }, 500);
+
+</script>
+</body>
 </html>

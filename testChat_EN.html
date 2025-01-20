@@ -283,6 +283,19 @@
         embedded_svc.addEventHandler("onChatEndedByAgent", function(data) {
             console.log("onChatEndedByAgent event was fired.  liveAgentSessionKey was " + data.liveAgentSessionKey);
         });
+
+
+        // Добавляем отслеживание закрытия чата и завершения чата 
+        embedded_svc.events.addHandler("onClickOpen", function () {
+            console.log("Chat opened");
+        });
+        embedded_svc.events.addHandler("onClickMinimize", function () {
+            console.log("Chat minimized");
+        });
+        embedded_svc.events.addHandler("onClickEndChat", function () {
+            console.log("Chat closed");
+        });
+
     }
 
 

@@ -199,6 +199,7 @@
     <div id="myModal" class="modal">
         <div class="modal-content">
             <p>Example of modal Window</p>
+            <p id="modalText">modal window text</p>
             <button class="modal-button" onclick="button1Clicked()">Get chatTranscript</button>
             <button class="modal-button" onclick="button2Clicked()">Leave Feedback</button>
         </div>
@@ -213,16 +214,8 @@
 </body>
 <script type='text/javascript' src='https://service.force.com/embeddedservice/5.0/esw.min.js'></script>
 <script type='text/javascript'>
-    // Функция для показа спинера
-    function showSpinner() {
-        document.getElementById('spinner-container').style.display = 'block';
-    }
 
-    // Функция для скрытия спинера
-    function hideSpinner() {
-        document.getElementById('spinner-container').style.display = 'none';
-    }
-
+    var chatKey_var = '';
 
     var initESW = function (gslbBaseURL) {
         embedded_svc.settings.displayHelpButton = false; //Or false
@@ -270,6 +263,9 @@
 
         embedded_svc.addEventHandler("afterDestroy", function() {
             var modal = document.getElementById("myModal");
+
+            var modalText = document.getElementById("modalText");
+            modalText.textContent = "ChatKey - " + chatKey_var;
             modal.style.display = "block";
         });
 
@@ -283,7 +279,6 @@
             modal.style.display = "none";
         }
     }
-
 
 
 
@@ -380,7 +375,7 @@
         // method to get ChatKey
         embedded_svc.addEventHandler("onChatRequestSuccess", function (data) {
             console.log("onChatRequestSuccess event was fired.  liveAgentSessionKey was " + data.liveAgentSessionKey);
-
+            chatKey_var = data.liveAgentSessionKey;
             document.getElementById('spinner-container').style.display = 'none';
 
         });

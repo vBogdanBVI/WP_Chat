@@ -301,7 +301,7 @@
 
     function startChat() {
         console.log('Inside Start Chat');
-
+        document.getElementById('spinner-container').style.display = 'block';   // show spinner
 
         const fName     = document.getElementById("fName");
         const lName     = document.getElementById("lName");
@@ -380,6 +380,9 @@
         // method to get ChatKey
         embedded_svc.addEventHandler("onChatRequestSuccess", function (data) {
             console.log("onChatRequestSuccess event was fired.  liveAgentSessionKey was " + data.liveAgentSessionKey);
+
+            document.getElementById('spinner-container').style.display = 'none';
+
         });
         // or this method to get ChatKey
         embedded_svc.addEventHandler("onChatEstablished", function (data) {

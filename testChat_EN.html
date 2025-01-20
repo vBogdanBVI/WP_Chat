@@ -157,15 +157,7 @@
         //embedded_svc.settings.offlineSupportMinimizedText = '...'; //(Defaults to Contact Us)
 
 
-        // method to get ChatKey
-        embedded_svc.addEventHandler("onChatRequestSuccess", function (data) {
-            console.log("onChatRequestSuccess event was fired.  liveAgentSessionKey was " + data.liveAgentSessionKey);
-        });
-        // or this method to get ChatKey
-        embedded_svc.addEventHandler("onChatEstablished", function (data) {
-            var chatKey = data.liveAgentSessionKey;
-            console.log("liveAgentSessionKey was " + chatKey);
-        });
+
 
 
         embedded_svc.settings.enabledFeatures = ['LiveAgent'];
@@ -277,13 +269,16 @@
 
 
 
-        embedded_svc.addEventHandler("onChatRequestSuccess", function(data) {
+
+        // method to get ChatKey
+        embedded_svc.addEventHandler("onChatRequestSuccess", function (data) {
             console.log("onChatRequestSuccess event was fired.  liveAgentSessionKey was " + data.liveAgentSessionKey);
         });
-
-        // embedded_svc.addEventHandler("onChatEstablished", function(data) {
-        //     console.log("onChatEstablished event was fired.  liveAgentSessionKey was " + data.liveAgentSessionKey);
-        // });
+        // or this method to get ChatKey
+        embedded_svc.addEventHandler("onChatEstablished", function (data) {
+            var chatKey = data.liveAgentSessionKey;
+            console.log("liveAgentSessionKey was " + chatKey);
+        });
 
 
 
@@ -300,7 +295,20 @@
                 // Пробегаемся по каждой кнопке и выводим ее ID в консоль
                 for (var i = 0; i < buttons.length; i++) {
                     console.log('ID кнопки:', buttons[i].id)
+                    console.log('--------------------')
+                    console.log(JSON.stringify(buttons[i]))
+                    console.log('--------------------')
+
+                    buttons[i].onclick = function() {
+
+                        console.log("button - 567")
+                        alert('Кнопка Close нажата!');
+                    }
                 }
+
+
+
+
 
 
                 // Находим все кнопки с классом 'myButtonClass'

@@ -273,6 +273,9 @@
             modal.style.display = "block";
         });
 
+        embedded_svc.addEventHandler("onInviteAccepted", function() {
+            document.getElementById('spinner-container').style.display = 'none';
+        });
 
     };
 
@@ -381,7 +384,7 @@
         embedded_svc.addEventHandler("onChatRequestSuccess", function (data) {
             console.log("onChatRequestSuccess event was fired.  liveAgentSessionKey was " + data.liveAgentSessionKey);
 
-            document.getElementById('spinner-container').style.display = 'none';
+            // document.getElementById('spinner-container').style.display = 'none';
 
         });
         // or this method to get ChatKey

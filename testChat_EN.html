@@ -277,23 +277,13 @@
 
 
 
-        embedded_svc.addEventHandler("onHelpButtonClick", function(data) {
-            console.log("onHelpButtonClick event was fired.");
-        });
-
         embedded_svc.addEventHandler("onChatRequestSuccess", function(data) {
             console.log("onChatRequestSuccess event was fired.  liveAgentSessionKey was " + data.liveAgentSessionKey);
         });
 
-        embedded_svc.addEventHandler("onChatEstablished", function(data) {
-            console.log("onChatEstablished event was fired.  liveAgentSessionKey was " + data.liveAgentSessionKey);
-        });
-
-
-        embedded_svc.addEventHandler("onChatConferenceEnded", function(data) {
-            console.log("onChatConferenceEnded event was fired.  liveAgentSessionKey was " + data.liveAgentSessionKey);
-        });
-
+        // embedded_svc.addEventHandler("onChatEstablished", function(data) {
+        //     console.log("onChatEstablished event was fired.  liveAgentSessionKey was " + data.liveAgentSessionKey);
+        // });
 
 
 
@@ -306,7 +296,7 @@
                 // Находим все кнопки с классом 'myButtonClass'
                 var buttons = document.querySelectorAll('.endChatButton');
                 // Выводим количество найденных кнопок в консоль
-                console.log('Найдено кнопок endChatButton:', buttons.length);
+                console.log('111 - Найдено кнопок endChatButton:', buttons.length);
                 // Пробегаемся по каждой кнопке и выводим ее ID в консоль
                 for (var i = 0; i < buttons.length; i++) {
                     console.log('ID кнопки:', buttons[i].id)
@@ -316,11 +306,12 @@
                 // Находим все кнопки с классом 'myButtonClass'
                 var buttons = document.querySelectorAll('.closeButton');
                 // Выводим количество найденных кнопок в консоль
-                console.log('Найдено кнопок closeButton:', buttons.length);
+                console.log('222 - Найдено кнопок closeButton:', buttons.length);
                 // Пробегаемся по каждой кнопке и выводим ее ID в консоль
                 for (var i = 0; i < buttons.length; i++) {
                     console.log('ID кнопки:', buttons[i].id)
                 }
+
             }, 1000);
         });
 
@@ -356,7 +347,7 @@
                 // Находим все кнопки с классом 'myButtonClass'
                 var buttons = document.querySelectorAll('.endChatButton');
                 // Выводим количество найденных кнопок в консоль
-                console.log('Найдено кнопок endChatButton:', buttons.length);
+                console.log('333 - Найдено кнопок endChatButton:', buttons.length);
                 // Пробегаемся по каждой кнопке и выводим ее ID в консоль
                 for (var i = 0; i < buttons.length; i++) {
                     console.log('ID кнопки:', buttons[i].id)
@@ -366,11 +357,13 @@
                 // Находим все кнопки с классом 'myButtonClass'
                 var buttons = document.querySelectorAll('.closeButton');
                 // Выводим количество найденных кнопок в консоль
-                console.log('Найдено кнопок closeButton:', buttons.length);
+                console.log('444 - Найдено кнопок closeButton:', buttons.length);
                 // Пробегаемся по каждой кнопке и выводим ее ID в консоль
                 for (var i = 0; i < buttons.length; i++) {
                     console.log('ID кнопки:', buttons[i].id)
                 }
+
+
             }, 1000);
         });
 

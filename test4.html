@@ -3,9 +3,6 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Custom Form</title>
-
-
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -75,6 +72,7 @@
             background-color: #007bb5;
         }
 
+
         #messageId {
             color: #888;
             margin-top: 20px;
@@ -84,13 +82,96 @@
             text-align: center;
         }
 
+        .green {
+            background-color: lightblue;
+        }
+
+        .red {
+            background-color: red;
+        }
+
+
+        /* modal window style 1 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        /* modal window style 2 */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+
+        /* Стиль для контейнера спинера */
+        .spinner-container {
+            display: none; /* Скрываем по умолчанию */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+        }
+
+        /* Стиль для самого спинера */
+        .spinner {
+            border: 16px solid #f3f3f3; /* Light grey */
+            border-top: 16px solid #3498db; /* Blue */
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 2s linear infinite;
+        }
+
+        /* Анимация вращения спинера */
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+
+        .embeddedServiceHelpButton .helpButton .uiButton {
+            background-color: #c8102e;
+            font-family: "Source Sans Pro", sans-serif;
+        }
+
+        .embeddedServiceHelpButton .helpButton .uiButton:focus {
+            outline: 1px solid #c8102e;
+        }
     </style>
+
+
+    <title>Custom Form</title>
+
 </head>
 
 
-
-
 <body>
+<div id="spinner-container" class="spinner-container">
+    <div class="spinner"></div>
+</div>
+
+<!-- Пример кнопки для включения/выключения спинера -->
+<!--<button onclick="showSpinner()">Показать спинер</button>-->
+<!--<button onclick="hideSpinner()">Скрыть спинер</button>-->
+
+
 <div class="container">
     <h1>Custom Form</h1>
     <form id="theForm">
@@ -113,12 +194,25 @@
 
     <p id="messageId">Agent is available</p>
     <!--        <button onclick="checkAgentAvailability()">Check Agent status</button>-->
+
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <p>Example of modal Window</p>
+            <p id="modalText">modal window text</p>
+            <button class="modal-button" onclick="button1Clicked()">Get chatTranscript</button>
+            <button class="modal-button" onclick="button2Clicked()">Leave Feedback</button>
+        </div>
+    </div>
 </div>
 
 
 </body>
 <script type='text/javascript' src='https://service.force.com/embeddedservice/5.0/esw.min.js'></script>
 <script type='text/javascript'>
+
+    var chatKey_var = '';
+
     var initESW = function (gslbBaseURL) {
         embedded_svc.settings.displayHelpButton = false; //Or false
         embedded_svc.settings.language = ''; //For example, enter 'en' or 'en-US'
@@ -139,9 +233,6 @@
         //embedded_svc.settings.offlineSupportMinimizedText = '...'; //(Defaults to Contact Us)
 
 
-
-
-
         embedded_svc.settings.enabledFeatures = ['LiveAgent'];
         embedded_svc.settings.entryFeature = 'LiveAgent';
 
@@ -150,17 +241,52 @@
             'https://tipico--wordpress.sandbox.my.salesforce-sites.com/chat',
             gslbBaseURL,
             '00DPw000006X0HC',
-            'testWP',
+            'testWP2',
             {
                 baseLiveAgentContentURL: 'https://c.la12s-core1.sfdc-cehfhs.salesforceliveagent.com/content',
                 deploymentId: '572Pw000004yHRt',
                 buttonId: '573Pw000002FmXp',
                 baseLiveAgentURL: 'https://d.la12s-core1.sfdc-cehfhs.salesforceliveagent.com/chat',
-                eswLiveAgentDevName: 'testWP',
+                eswLiveAgentDevName: 'testWP2',
                 isOfflineSupportEnabled: false
             }
         );
+
+
+
+        // method to get ChatKey
+        embedded_svc.addEventHandler("onChatRequestSuccess", function (data) {
+            console.log("onChatRequestSuccess event was fired.  liveAgentSessionKey was " + data.liveAgentSessionKey);
+            chatKey_var = data.liveAgentSessionKey;
+            document.getElementById('spinner-container').style.display = 'none';
+
+        });
+        // or this method to get ChatKey
+        embedded_svc.addEventHandler("onChatEstablished", function (data) {
+            var chatKey = data.liveAgentSessionKey;
+            console.log("liveAgentSessionKey was " + chatKey);
+        });
+
+
+        embedded_svc.addEventHandler("afterDestroy", function () {
+            var modal = document.getElementById("myModal");
+
+            var modalText = document.getElementById("modalText");
+            modalText.textContent = "ChatKey - " + chatKey_var;
+            modal.style.display = "block";
+        });
+
+
     };
+
+    // close modal window
+    var modal = document.getElementById("myModal");
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
 
     if (!window.embedded_svc) {
         var s = document.createElement('script');
@@ -176,11 +302,11 @@
 
     function startChat() {
         console.log('Inside Start Chat');
+        document.getElementById('spinner-container').style.display = 'block';   // show spinner
 
-
-        const fName     = document.getElementById("fName");
-        const lName     = document.getElementById("lName");
-        const emailVar  = document.getElementById("email");
+        const fName = document.getElementById("fName");
+        const lName = document.getElementById("lName");
+        const emailVar = document.getElementById("email");
 
         let preChatVars = [
             {
@@ -195,46 +321,46 @@
                 "label": "Email",
                 "value": emailVar.value,
                 "transcriptFields": ["Email__c"]
-            },{
+            }, {
                 "value": "CookieConsentPolicy=0:1; LSKey-c$CookieConsentPolicy=0:1; BrowserId=MiTP3LBFEe-59c9yTx49mA; _hjSessionUser_3335449=eyJpZCI6ImEwZmZiZTM0LTk4OWItNTkyYS04ZWJhLTVmNjE2OWNhNDczZCIsImNyZWF0ZWQiOjE3MzMwOTk2NzI1MzIsImV4aXN0aW5nIjp0cnVlfQ==; _hjSession_3335449=eyJpZCI6ImQ0MjI1ZGNiLTRlZjMtNDM1Zi1iZTIzLTM0ZTdiOTYyNDkyNCIsImMiOjE3MzMxMjQzNjczOTksInMiOjAsInIiOjAsInNiIjowLCJzciI6MCwic2UiOjAsImZzIjowLCJzcCI6MX0=",
                 "transcriptFields": ["CacheCookies__c"]
-            },{
+            }, {
                 "value": "TCL",
                 "transcriptFields": ["Entity__c"]
-            },{
+            }, {
                 "value": "Games",
                 "transcriptFields": ["Category__c"]
-            },{
+            }, {
                 "value": "Tipico",
                 "transcriptFields": ["Domain__c"]
-            },{
+            }, {
                 "value": "General questions",
                 "transcriptFields": ["Issue__c"]
-            },{
+            }, {
                 "value": "Tipico - Originalwetten",
                 "transcriptFields": ["Label__c"]
-            },{
+            }, {
                 "value": "German",
                 "transcriptFields": ["Language__c"]
-            },{
+            }, {
                 "value": "Helpcenter",
                 "transcriptFields": ["Origin__c"]
-            },{
+            }, {
                 "value": "test question",
                 "transcriptFields": ["Question__c"]
-            },{
+            }, {
                 "value": "2fba246c-2d5e-4eef-b45b-a838c7a12f38",
                 "transcriptFields": ["UUID__c"]
-            },{
+            }, {
                 "value": "Ailomailo@test.com",
                 "transcriptFields": ["Username__c"]
-            },{
+            }, {
                 "value": "Denmark",
                 "transcriptFields": ["country__c"]
-            },{
+            }, {
                 "value": "DESKTOP_WEB_RETH",
                 "transcriptFields": ["User_App__c"]
-            },{
+            }, {
                 "value": "User path: > Ein- & Auszahlungen > Thema Einzahlungen > Probleme bei der Einzahlung? > Live chat > Start chat",
                 "transcriptFields": ["Breadcrumbs_Trail__c"]
             }
@@ -252,122 +378,6 @@
 
 
 
-        // method to get ChatKey
-        embedded_svc.addEventHandler("onChatRequestSuccess", function (data) {
-            console.log("onChatRequestSuccess event was fired.  liveAgentSessionKey was " + data.liveAgentSessionKey);
-        });
-        // or this method to get ChatKey
-        embedded_svc.addEventHandler("onChatEstablished", function (data) {
-            var chatKey = data.liveAgentSessionKey;
-            console.log("liveAgentSessionKey was " + chatKey);
-        });
-
-
-
-        embedded_svc.addEventHandler("onChatEndedByChasitor", function(data) {
-            console.log("onChatEndedByChasitor event was fired.  liveAgentSessionKey was " + data.liveAgentSessionKey);
-
-
-            setTimeout(function () {
-
-                // Находим все кнопки с классом 'myButtonClass'
-                var buttons = document.querySelectorAll('.endChatButton');
-                // Выводим количество найденных кнопок в консоль
-                console.log('111 - Найдено кнопок endChatButton:', buttons.length);
-                // Пробегаемся по каждой кнопке и выводим ее ID в консоль
-                for (var i = 0; i < buttons.length; i++) {
-                    console.log('ID кнопки:', buttons[i].id)
-                    console.log('--------------------')
-                    console.log(JSON.stringify(buttons[i]))
-                    console.log('--------------------')
-
-                    buttons[i].onclick = function() {
-
-                        console.log("button - 567")
-                        alert('Кнопка Close нажата!');
-                    }
-                }
-
-
-
-
-
-
-                // Находим все кнопки с классом 'myButtonClass'
-                var buttons = document.querySelectorAll('.closeButton');
-                // Выводим количество найденных кнопок в консоль
-                console.log('222 - Найдено кнопок closeButton:', buttons.length);
-                // Пробегаемся по каждой кнопке и выводим ее ID в консоль
-                for (var i = 0; i < buttons.length; i++) {
-                    console.log('ID кнопки:', buttons[i].id)
-                }
-
-            }, 1000);
-        });
-
-        embedded_svc.addEventHandler("onChatEndedByAgent", function(data) {
-            console.log("onChatEndedByAgent event was fired.  liveAgentSessionKey was " + data.liveAgentSessionKey);
-
-            setTimeout(function () {
-                /*
-                var searchBtn = document.getElementById("closeBtn");
-                if(!searchBtn){
-                    var btn = document.createElement("BUTTON");
-                    btn.id = "closeBtn";
-                    btn.innerHTML = "Close Chat";
-                    btn.className = "endChatButton postChatButton uiButton--default uiButton embeddedServiceSidebarButton";
-                    btn.addEventListener("click", function (e){
-                        e.preventDefault();
-                        console.log('Clear Session Clicked');
-                        embedded_svc.liveAgentAPI.clearSession();
-                        var chatHeader = document.getElementsByTagName('embeddedservice-chat-header');
-                        if(chatHeader && chatHeader.length > 0){
-                            var close = chatHeader[0].getElementsByClassName("closeButton");
-                            if(close && close.length > 0){
-                                close[0].click();
-                            }
-                        }
-                    });
-                    var myDiv = document.getElementsByClassName('endChatContainer');
-                    myDiv[0].appendChild(btn);
-                }
-                */
-
-
-                // Находим все кнопки с классом 'myButtonClass'
-                var buttons = document.querySelectorAll('.endChatButton');
-                // Выводим количество найденных кнопок в консоль
-                console.log('333 - Найдено кнопок endChatButton:', buttons.length);
-                // Пробегаемся по каждой кнопке и выводим ее ID в консоль
-                for (var i = 0; i < buttons.length; i++) {
-                    console.log('ID кнопки:', buttons[i].id)
-                    console.log('--------------------')
-                    console.log(JSON.stringify(buttons[i]))
-                    console.log('--------------------')
-
-                    buttons[i].onclick = function() {
-
-                        console.log("button - 567")
-                        alert('Кнопка Close нажата!');
-                    }
-                }
-
-
-                // Находим все кнопки с классом 'myButtonClass'
-                var buttons = document.querySelectorAll('.closeButton');
-                // Выводим количество найденных кнопок в консоль
-                console.log('444 - Найдено кнопок closeButton:', buttons.length);
-                // Пробегаемся по каждой кнопке и выводим ее ID в консоль
-                for (var i = 0; i < buttons.length; i++) {
-                    console.log('ID кнопки:', buttons[i].id)
-                }
-
-
-            }, 1000);
-        });
-
-
-
     }
 
 
@@ -377,10 +387,10 @@
 
 
     function checkAgentAvailability() {
-        const elementEnabled    = document.getElementsByClassName('uiButton helpButtonEnabled');
-        const elementDisabled   = document.getElementsByClassName('uiButton helpButtonDisabled');
+        const elementEnabled = document.getElementsByClassName('uiButton helpButtonEnabled');
+        const elementDisabled = document.getElementsByClassName('uiButton helpButtonDisabled');
 
-        var messageElement      = document.getElementById("messageId");
+        var messageElement = document.getElementById("messageId");
 
         if (elementEnabled && elementEnabled.length > 0) {
             messageElement.innerHTML = "Agent is available";

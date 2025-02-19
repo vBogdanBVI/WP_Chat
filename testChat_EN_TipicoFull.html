@@ -9,6 +9,17 @@
             width: 20px;
         }
 
+
+        .embeddedServiceHelpButton .helpButton .uiButton {
+            background-color: #272727;
+            font-family: "Source Sans Pro", sans-serif;
+        }
+        .embeddedServiceHelpButton .helpButton .uiButton:focus {
+            outline: 1px solid #272727;
+        }
+
+
+
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
@@ -120,9 +131,8 @@
         }
 
 
-        /* Стиль для контейнера спинера */
         .spinner-container {
-            display: none; /* Скрываем по умолчанию */
+            display: none;
             position: fixed;
             top: 50%;
             left: 50%;
@@ -130,7 +140,6 @@
             z-index: 9999;
         }
 
-        /* Стиль для самого спинера */
         .spinner {
             border: 16px solid #f3f3f3; /* Light grey */
             border-top: 16px solid #3498db; /* Blue */
@@ -140,7 +149,6 @@
             animation: spin 2s linear infinite;
         }
 
-        /* Анимация вращения спинера */
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
@@ -148,14 +156,6 @@
 
 
 
-        .embeddedServiceHelpButton .helpButton .uiButton {
-            background-color: #c8102e;
-            font-family: "Source Sans Pro", sans-serif;
-        }
-
-        .embeddedServiceHelpButton .helpButton .uiButton:focus {
-            outline: 1px solid #c8102e;
-        }
     </style>
 
 
@@ -259,7 +259,7 @@
                 deploymentId: '5720X000000PPVo',
                 buttonId: '573QJ000001DxBN',
                 baseLiveAgentURL: 'https://d.la12s-core1.sfdc-cehfhs.salesforceliveagent.com/chat',
-                eswLiveAgentDevName: 'WordPress_HelpCenter',
+                eswLiveAgentDevName: 'EmbeddedServiceLiveAgent_Parent04IQJ000000AMaL2AW_194740caecd',
                 isOfflineSupportEnabled: false
             }
         );
@@ -373,7 +373,7 @@
 
         embedded_svc.liveAgentAPI.startChat({
             directToAgentRouting: {
-                buttonId: "573Pw000002FmXp",
+                buttonId: "573QJ000001DxBN",
                 fallback: true
             },
             extraPrechatFormDetails: preChatVars

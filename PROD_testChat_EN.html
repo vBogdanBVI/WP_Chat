@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+
+        svg.slds-icon.slds-icon-text-default.slds-icon_x-small {
+            width: 20px;
+        }
+
+
+        .embeddedServiceHelpButton .helpButton .uiButton {
+            background-color: #272727;
+            font-family: "Source Sans Pro", sans-serif;
+        }
+        .embeddedServiceHelpButton .helpButton .uiButton:focus {
+            outline: 1px solid #272727;
+        }
+
+
+
+
+        .embeddedServiceLiveAgentStateChatInputFooter .fileName {
+            font-size: 16px;
+            font-weight: bold;
+            color: #141414;
+        }
+
+        .embeddedServiceLiveAgentStateChatInputFooter .fileDescription {
+            font-size: 14px;
+            color: #141414;
+        }
+
+
+
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: darkblue;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form p {
+            margin: 15px 0;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input[type="button"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        input[type="button"]:hover {
+            background-color: #45a049;
+        }
+
+        button {
+            background-color: #008CBA;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #007bb5;
+        }
+
+
+        #messageId {
+            color: #888;
+            margin-top: 20px;
+            padding: 10px;
+            font-size: 12px;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        .green {
+            background-color: lightblue;
+        }
+
+        .red {
+            background-color: red;
+        }
+
+
+        /* modal window style 1 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        /* modal window style 2 */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+
+        /* Стиль для контейнера спинера */
+        .spinner-container {
+            display: none; /* Скрываем по умолчанию */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+        }
+
+        /* Стиль для самого спинера */
+        .spinner {
+            border: 16px solid #f3f3f3; /* Light grey */
+            border-top: 16px solid #3498db; /* Blue */
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 2s linear infinite;
+        }
+
+        /* Анимация вращения спинера */
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+
+    </style>
+
+
+    <title>Custom Form</title>
+
+</head>
+
+
+<body>
+<div id="spinner-container" class="spinner-container">
+    <div class="spinner"></div>
+</div>
+
+<!-- Пример кнопки для включения/выключения спинера -->
+<!--<button onclick="showSpinner()">Показать спинер</button>-->
+<!--<button onclick="hideSpinner()">Скрыть спинер</button>-->
+
+
+<div class="container">
+    <h1>Custom Form</h1>
+    <form id="theForm">
+        <p>
+            <label for="fName">First Name:</label>
+            <input id="fName" name="fName" value="fName" type="text"/>
+        </p>
+        <p>
+            <label for="lName">Last Name:</label>
+            <input id="lName" name="lName" value="lastName" type="text"/>
+        </p>
+        <p>
+            <label for="email">Email:</label>
+            <input id="email" value="test@test.com" name="email" type="text"/>
+        </p>
+    </form>
+    <input type="button" value="Start Chat" onclick="startChat();"/>
+    </br>
+    <input type="button" value="Clear Chat Session" onclick="clearSession();"/>
+
+    <p id="messageId">Agent is available</p>
+    <!--        <button onclick="checkAgentAvailability()">Check Agent status</button>-->
+
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <p>Example of modal Window</p>
+            <p id="modalText">modal window text</p>
+            <button class="modal-button" onclick="button1Clicked()">Get chatTranscript</button>
+            <button class="modal-button" onclick="button2Clicked()">Leave Feedback</button>
+        </div>
+    </div>
+</div>
+
+
+</body>
+<script type='text/javascript' src='https://service.force.com/embeddedservice/5.0/esw.min.js'></script>
+<script type='text/javascript'>
+
+    var chatKey_var = '';
+
+    var initESW = function (gslbBaseURL) {
+        embedded_svc.settings.displayHelpButton = false; //Or false
+        embedded_svc.settings.language = 'en';
+        // embedded_svc.settings.language = 'de';   //For example, enter 'en' or 'en-US'
+
+        //embedded_svc.settings.defaultMinimizedText = '...'; //(Defaults to Chat with an Expert)
+        //embedded_svc.settings.disabledMinimizedText = '...'; //(Defaults to Agent Offline)
+
+        //embedded_svc.settings.loadingText = ''; //(Defaults to Loading)
+        //embedded_svc.settings.storageDomain = 'yourdomain.com'; //(Sets the domain for your deployment so that visitors can navigate subdomains during a chat session)
+
+        // Settings for Chat
+        //embedded_svc.settings.directToButtonRouting = function(prechatFormData) {
+        // Dynamically changes the button ID based on what the visitor enters in the pre-chat form.
+        // Returns a valid button ID.
+        //};
+        //embedded_svc.settings.prepopulatedPrechatFields = {}; //Sets the auto-population of pre-chat form fields
+        //embedded_svc.settings.fallbackRouting = []; //An array of button IDs, user IDs, or userId_buttonId
+        //embedded_svc.settings.offlineSupportMinimizedText = '...'; //(Defaults to Contact Us)
+
+
+        embedded_svc.settings.enabledFeatures = ['LiveAgent'];
+        embedded_svc.settings.entryFeature = 'LiveAgent';
+
+        embedded_svc.init(
+            'https://tipico.my.salesforce.com',
+            'https://tipico.my.salesforce-sites.com/chat',
+            gslbBaseURL,
+            '00Db0000000aNrx',
+            'WordPress_Helpcenter_service',
+            {
+                baseLiveAgentContentURL: 'https://c.la11-core1.sfdc-cehfhs.salesforceliveagent.com/content',
+                deploymentId: '572QA0000005gQ1',
+                buttonId: '573QA0000001AN7',
+                baseLiveAgentURL: 'https://d.la11-core1.sfdc-cehfhs.salesforceliveagent.com/chat',
+                eswLiveAgentDevName: 'EmbeddedServiceLiveAgent_Parent04IQA000002bIRR2A2_194deca78fa',
+                isOfflineSupportEnabled: false
+            }
+        );
+
+
+
+        // method to get ChatKey
+        embedded_svc.addEventHandler("onChatRequestSuccess", function (data) {
+            console.log("onChatRequestSuccess event was fired.  liveAgentSessionKey was " + data.liveAgentSessionKey);
+            chatKey_var = data.liveAgentSessionKey;
+            document.getElementById('spinner-container').style.display = 'none';
+
+        });
+        // or this method to get ChatKey
+        embedded_svc.addEventHandler("onChatEstablished", function (data) {
+            var chatKey = data.liveAgentSessionKey;
+            console.log("liveAgentSessionKey was " + chatKey);
+        });
+
+
+        embedded_svc.addEventHandler("afterDestroy", function () {
+            var modal = document.getElementById("myModal");
+
+            var modalText = document.getElementById("modalText");
+            modalText.textContent = "ChatKey - " + chatKey_var;
+            modal.style.display = "block";
+        });
+
+
+    };
+
+    // close modal window
+    var modal = document.getElementById("myModal");
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+
+    if (!window.embedded_svc) {
+        var s = document.createElement('script');
+        s.setAttribute('src', 'https://tipico.my.salesforce.com/embeddedservice/5.0/esw.min.js');
+        s.onload = function () {
+            initESW(null);
+        };
+        document.body.appendChild(s);
+    } else {
+        initESW('https://service.force.com');
+    }
+
+
+    function startChat() {
+        console.log('Inside Start Chat');
+        document.getElementById('spinner-container').style.display = 'block';   // show spinner
+
+        const fName = document.getElementById("fName");
+        const lName = document.getElementById("lName");
+        const emailVar = document.getElementById("email");
+
+        let preChatVars = [
+            {
+                "label": "Viktor",
+                "value": fName.value,
+                "transcriptFields": ["FirstName__c"]
+            }, {
+                "label": "Bogdan",
+                "value": lName.value,
+                "transcriptFields": ["LastName__c"]
+            }, {
+                "label": "Email",
+                "value": emailVar.value,
+                "transcriptFields": ["Email__c"]
+            }, {
+                "value": "CookieConsentPolicy=0:1; LSKey-c$CookieConsentPolicy=0:1; BrowserId=MiTP3LBFEe-59c9yTx49mA; _hjSessionUser_3335449=eyJpZCI6ImEwZmZiZTM0LTk4OWItNTkyYS04ZWJhLTVmNjE2OWNhNDczZCIsImNyZWF0ZWQiOjE3MzMwOTk2NzI1MzIsImV4aXN0aW5nIjp0cnVlfQ==; _hjSession_3335449=eyJpZCI6ImQ0MjI1ZGNiLTRlZjMtNDM1Zi1iZTIzLTM0ZTdiOTYyNDkyNCIsImMiOjE3MzMxMjQzNjczOTksInMiOjAsInIiOjAsInNiIjowLCJzciI6MCwic2UiOjAsImZzIjowLCJzcCI6MX0=",
+                "transcriptFields": ["CacheCookies__c"]
+            }, {
+                "value": "TCL",
+                "transcriptFields": ["Entity__c"]
+            }, {
+                "value": "Games",
+                "transcriptFields": ["Category__c"]
+            }, {
+                "value": "Tipico",
+                "transcriptFields": ["Domain__c"]
+            }, {
+                "value": "General questions",
+                "transcriptFields": ["Issue__c"]
+            }, {
+                "value": "Tipico",
+                "transcriptFields": ["Label__c"]
+            }, {
+                "value": "EN",
+                "transcriptFields": ["Language__c"]
+            }, {
+                "value": "Helpcenter",
+                "transcriptFields": ["Origin__c"]
+            }, {
+                "value": "Test chat to test new Helpcenter",
+                "transcriptFields": ["Question__c"]
+            }, {
+                "value": "2fba246c-2d5e-4eef-b45b-test",
+                "transcriptFields": ["UUID__c"]
+            }, {
+                "value": "Ailomailo@test.com",
+                "transcriptFields": ["Username__c"]
+            }, {
+                "value": "AT",
+                "transcriptFields": ["country__c"]
+            }, {
+                "value": "DESKTOP_WEB_RETH",
+                "transcriptFields": ["User_App__c"]
+            }, {
+                "value": "User path: > Ein- & Auszahlungen > Thema Einzahlungen > Probleme bei der Einzahlung? > Live chat > Start chat",
+                "transcriptFields": ["Breadcrumbs_Trail__c"]
+            }
+        ];
+
+
+        embedded_svc.liveAgentAPI.startChat({
+            directToAgentRouting: {
+                buttonId: "573QA0000001AN7",
+                fallback: true
+            },
+            extraPrechatFormDetails: preChatVars
+        });
+
+
+
+
+    }
+
+
+    function clearSession() {
+        embedded_svc.liveAgentAPI.clearSession();
+    }
+
+
+    function checkAgentAvailability() {
+        const elementEnabled = document.getElementsByClassName('uiButton helpButtonEnabled');
+        const elementDisabled = document.getElementsByClassName('uiButton helpButtonDisabled');
+
+        var messageElement = document.getElementById("messageId");
+
+        if (elementEnabled && elementEnabled.length > 0) {
+            messageElement.innerHTML = "Agent is available";
+            messageElement.className = "green";
+        }
+        if (elementDisabled && elementDisabled.length > 0) {
+            messageElement.innerHTML = "Agent is offline";
+            messageElement.className = "red";
+        }
+    }
+
+
+    window.setInterval(function () {
+        checkAgentAvailability();
+    }, 500);
+
+</script>
+</body>
+</html>

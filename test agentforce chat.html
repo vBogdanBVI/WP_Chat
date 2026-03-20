@@ -3,65 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
     <title>Chat with Agentforce</title>
 </head>
 <body>
 
-	<p> test info 2</p>
-	
-	<script type='text/javascript'>
-	function initEmbeddedMessaging() {
-		try {
-			embeddedservice_bootstrap.settings.language = 'en_US'; // For example, enter 'en' or 'en-US'
+    <p>test info 3</p>
 
-			embeddedservice_bootstrap.init(
-				'00Dba00000312Sf',
-				'Chat_with_Agentforce',
-				'https://booksy2--aldev1.sandbox.my.site.com/ESWChatwithAgentforce1773992360793',
-				{
-					scrt2URL: 'https://booksy2--aldev1.sandbox.my.salesforce-scrt.com'
-				}
-			);
-		} catch (err) {
-			console.error('Error loading Embedded Messaging: ', err);
-		}
-	};
-</script>
-<script type='text/javascript' src='https://booksy2--aldev1.sandbox.my.site.com/ESWChatwithAgentforce1773992360793/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>
-
-</body>
-
-
-
+    <script type='text/javascript'>
+        // Лог для отслеживания загрузки страницы
+        console.log('=== Embedded Messaging Debug Log ===');
+        console.log('1. Page loaded at: ' + new Date().toISOString());
+        console.log('2. Current page URL: ' + window.location.href);
+        
+        // Проверка доступности внешних ресурсов перед загрузкой
+        console.log('3. Checking if external resources are reachable...');
+        
+        function testResourceAccessibility(url) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('HEAD', url, true);
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    console.log('   ✓ Resource accessible: ' + url);
+                } else {
+                    console.error('   ✗ Resource NOT accessible (status: ' + xhr.status + '): ' + url);
+                }
+            };
+            xhr.onerror = function() {
+                console.error('   ✗ Resource request failed (CORS or network issue): ' + url);
+            };
+            xhr.send();
+        }
+        
+        // Тестируем доступность основного ресурса (будет выполнен асинхронно)
+        var bootstrapUrl = 'https://booksy2--aldev1.sandbox.my.site.com/ESWChatwithAgentforce1773992360793/assets/js/bootstrap.min.js';
+        testResourceAccessibility(bootstrapUrl);
+        
+        function initEmbeddedMessaging() {
+            console.log('4. initEmbeddedMessaging() called at: ' + new Date().toISOString());
+            
+            try {
+                // Проверка существования объекта embeddedservice_bootstrap
+                if (typeof embeddedservice_bootstrap === 'undefined') {
+                    console.error('✗ embeddedservice_bootstrap is NOT defined - library may not have loaded correctly');
+                    console.log('   Available global objects: ', Object.keys(window).filter(key => key.includes('embedded') || key.includes('service')));
+                    return;
+                }
+                
+                console.log('✓ embeddedservice_bootstrap object exists');
+                console.log('   Settings before modification: ', JSON.stringify(embeddedservice_bootstrap.settings || {}));
+                
+                // Установка языка
+                embeddedservice_bootstrap.settings.language = 'en_US';
+                console.log('   Language set to: en_US');
+                
+                // Параметры инициализации
+                var orgId = '00Dba00000312Sf';
+                var deploymentId = 'Chat_with_Agentforce';
+                var baseUrl = 'https://booksy2--aldev1.sandbox.my.site.com/ESWChatwithAgentforce1773992360793';
+                var options = {
+                    scrt2URL: 'https://booksy2--aldev1.sandbox.my.salesforce-scrt.com'
+                };
+                
+                console.log('5. Initializing with parameters:');
+                console.log('   - Org ID: ' + orgId);
+                console.log('   - Deployment ID: ' + deploymentId);
+                console.log('   - Base URL: ' + baseUrl);
+                console.log('   - SCRT2 URL: ' + options.scrt2URL);
+                
+                // Вызов инициализации
+                embeddedservice_bootstrap.init(orgId, deploymentId, baseUrl, options);
+                
+                console.log('✓ Embedded Messaging initialization completed successfully');
+                console.log('6. Chat widget should now be loading...');
+                
+                // Проверка создания DOM элементов чата через небольшую задержку
+                setTimeout(function() {
+                    var chatElements = document.querySelectorAll('[id*="embedded"], [class*="embedded"], iframe');
+                    console.log('7. DOM elements after initialization:');
+                    console.log('   - Total iframes found: ' + document.querySelectorAll('iframe').length);
+                    console.log('   - Elements with "embedded" in ID/class: ' + chatElements.length);
+                    if (chatElements.length > 0) {
+                        console.log('   ✓ Chat elements detected:', chatElements);
+                    } else {
+                        console.warn('   ⚠ No chat elements detected yet - may still be loading');
+                    }
+                }, 3000);
+                
+            } catch (err) {
+                console.error('✗ Error during Embedded Messaging initialization: ', err);
+                console.error('   Error name: ' + err.name);
+                console.error('   Error message: ' + err.message);
+                console.error('   Stack trace: ' + (err.stack || 'Not available'));
+            }
+        }
+        
+        // Логирование события загрузки скрипта
+        window.addEventListener('load', function() {
+            console.log('8. Window load event fired at: ' + new Date().toISOString());
+        });
+        
+        console.log('9. Script setup complete, waiting for bootstrap.min.js to load...');
+    </script>
+    
     <script 
         type='text/javascript' 
         src='https://booksy2--aldev1.sandbox.my.site.com/ESWChatwithAgentforce1773992360793/assets/js/bootstrap.min.js' 
-        onload='initEmbeddedMessaging()'>
-    </script>
-    <script type='text/javascript'>
-        function initEmbeddedMessaging() {
-            try {
-                // Проверка, что объект embeddedservice_bootstrap существует
-                if (typeof embeddedservice_bootstrap === 'undefined') {
-                    console.error('embeddedservice_bootstrap is not defined');
-                    return;
-                }
-
-                embeddedservice_bootstrap.settings.language = 'en_US';
-
-                embeddedservice_bootstrap.init(
-                    '00Dba00000312Sf',
-                    'Chat_with_Agentforce',
-                    'https://booksy2--aldev1.sandbox.my.site.com/ESWChatwithAgentforce1773992360793',
-                    {
-                        scrt2URL: 'https://booksy2--aldev1.sandbox.my.salesforce-scrt.com'
-                    }
-                );
-            } catch (err) {
-                console.error('Error loading Embedded Messaging: ', err);
-            }
-        }
+        onload='console.log("✓ bootstrap.min.js loaded successfully at: " + new Date().toISOString()); initEmbeddedMessaging();'
+        onerror='console.error("✗ Failed to load bootstrap.min.js - check URL and network connectivity");'>
     </script>
 
+</body>
 </html>

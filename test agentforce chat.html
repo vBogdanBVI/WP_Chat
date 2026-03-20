@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,27 +7,39 @@
     <title>Chat with Agentforce</title>
 </head>
 <body>
-<p>Test chat</p>
+    <!-- Опционально: контейнер, если библиотека его не создает сама -->
+    <!-- <div id="embedded-messaging-container"></div> -->
 
-<script type='text/javascript'>
-	function initEmbeddedMessaging() {
-		try {
-			embeddedservice_bootstrap.settings.language = 'en_US'; // For example, enter 'en' or 'en-US'
+    <p>Test chat</p>
 
-			embeddedservice_bootstrap.init(
-				'00Dba00000312Sf',
-				'Chat_with_Agentforce',
-				'https://booksy2--aldev1.sandbox.my.site.com/ESWChatwithAgentforce1773992360793',
-				{
-					scrt2URL: 'https://booksy2--aldev1.sandbox.my.salesforce-scrt.com'
-				}
-			);
-		} catch (err) {
-			console.error('Error loading Embedded Messaging: ', err);
-		}
-	};
-</script>
-<script type='text/javascript' src='https://booksy2--aldev1.sandbox.my.site.com/ESWChatwithAgentforce1773992360793/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>
+    <script type='text/javascript'>
+        function initEmbeddedMessaging() {
+            try {
+                // Проверка, что объект embeddedservice_bootstrap существует
+                if (typeof embeddedservice_bootstrap === 'undefined') {
+                    console.error('embeddedservice_bootstrap is not defined');
+                    return;
+                }
 
+                embeddedservice_bootstrap.settings.language = 'en_US';
+
+                embeddedservice_bootstrap.init(
+                    '00Dba00000312Sf',
+                    'Chat_with_Agentforce',
+                    'https://booksy2--aldev1.sandbox.my.site.com/ESWChatwithAgentforce1773992360793',
+                    {
+                        scrt2URL: 'https://booksy2--aldev1.sandbox.my.salesforce-scrt.com'
+                    }
+                );
+            } catch (err) {
+                console.error('Error loading Embedded Messaging: ', err);
+            }
+        }
+    </script>
+    <script 
+        type='text/javascript' 
+        src='https://booksy2--aldev1.sandbox.my.site.com/ESWChatwithAgentforce1773992360793/assets/js/bootstrap.min.js' 
+        onload='initEmbeddedMessaging()'>
+    </script>
 </body>
 </html>

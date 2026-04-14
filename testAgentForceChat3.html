@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Chat with Agentforce</title>
+    <style>
+        body { font-family: monospace; padding: 20px; }
+        .log { background: #f4f4f4; border-left: 3px solid #0070d2; padding: 10px; margin: 5px 0; font-size: 12px; }
+        .error { border-left-color: red; background: #ffe6e6; }
+        .success { border-left-color: green; background: #e6ffe6; }
+        .info { border-left-color: blue; }
+        button { margin: 10px 0; padding: 8px 16px; background: #0070d2; color: white; border: none; cursor: pointer; }
+        button:hover { background: #005bb5; }
+    </style>
+</head>
+<body>
+
+    <h2>Chat with Agentforce - Debug Mode</h2>
+    <p>Status: <span id="status" style="font-weight: bold; color: orange;">Initializing...</span></p>
+    <button onclick="clearLogs()">Clear Logs</button>
+    <div id="logs"></div>
+
+    <script type='text/javascript'>
+        // Логгер с таймстемпами
+        const logsDiv = document.getElementById('logs');
+        const statusSpan = document.getElementById('status');
+        
+        function addLog(message, type = 'info') {
+            const logEntry = document.createElement('div');
+            logEntry.className = `log ${type}`;
+            const timestamp = new Date().toLocaleTimeString();
+            logEntry.innerHTML = `<strong>[${timestamp}]</strong> ${message}`;
+            logsDiv.appendChild(logEntry);
+            console.log(`[${timestamp}] ${message}`);
+            
+            // Автоскролл вниз
+            logsDiv.scrollTop = logsDiv.scrollHeight;
+        }
+        
+        function updateStatus(status, isError = false) {
+            statusSpan.textContent = status;
+            statusSpan.style.color = isError ? 'red' : (status === 'Ready' ? 'green' : 'orange');
+        }
+        
+        function clearLogs() {
+            logsDiv.innerHTML = '';
+            addLog('Logs cleared', 'info');
+        }
+        
+        // Основная функция инициализации
+        function initEmbeddedMessaging() {
+            addLog('🚀 initEmbeddedMessaging() started', 'info');
+            
+            // Проверка наличия bootstrap объекта
+            if (typeof embeddedservice_bootstrap === 'undefined') {
+                addLog('❌ CRITICAL: embeddedservice_bootstrap is undefined! Script not loaded?', 'error');
+                updateStatus('Failed: bootstrap not loaded', true);
+                return;
+            }
+            addLog('✅ embeddedservice_bootstrap exists', 'success');
+            
+            // Проверка settings объекта
+            if (!embeddedservice_bootstrap.settings) {
+                addLog('⚠️ embeddedservice_bootstrap.settings is undefined', 'error');
+            } else {
+                addLog('✅ embeddedservice_bootstrap.settings exists', 'success');
+            }
+            
+            try {
+                // Установка языка
+                embeddedservice_bootstrap.settings.language = 'en_US';
+                addLog('🌐 Language set to en_US', 'success');
+                
+                // Логирование параметров инициализации
+                const orgId = '00DS800000GbGxp';
+                const deploymentId = 'Chat_with_Agentforce';
+                const baseUrl = 'https://booksy2--aldev3.sandbox.my.site.com/ESWChatwithAgentforce1776023448484';
+                const scrt2URL = 'https://booksy2--aldev3.sandbox.my.salesforce-scrt.com';
+                
+                addLog(`📋 Init params:`, 'info');
+                addLog(`   - Org ID: ${orgId}`, 'info');
+                addLog(`   - Deployment ID: ${deploymentId}`, 'info');
+                addLog(`   - Base URL: ${baseUrl}`, 'info');
+                addLog(`   - SCRT2 URL: ${scrt2URL}`, 'info');
+                
+                // Добавляем слушатель события готовности ДО инициализации
+                addLog('📡 Setting up event listeners...', 'info');
+                
+                window.addEventListener("onEmbeddedMessagingReady", function(e) {
+                    addLog('🎉 EVENT: onEmbeddedMessagingReady fired! Chat is ready', 'success');
+                    updateStatus('Ready', false);
+                    
+                    // Проверяем доступность prechatAPI
+                    if (embeddedservice_bootstrap.prechatAPI) {
+                        addLog('✅ prechatAPI is available', 'success');
+                        addLog('ℹ️ You can now set pre-chat fields', 'info');
+                    } else {
+                        addLog('⚠️ prechatAPI is not available', 'error');
+                    }
+                });
+                
+                window.addEventListener("onEmbeddedMessagingError", function(e) {
+                    addLog(`❌ EVENT: onEmbeddedMessagingError - ${JSON.stringify(e.detail || e)}`, 'error');
+                    updateStatus('Error occurred', true);
+                });
+                
+                window.addEventListener("onEmbeddedMessagingChatStarted", function(e) {
+                    addLog('💬 EVENT: Chat session started!', 'success');
+                });
+                
+                window.addEventListener("onEmbeddedMessagingChatEnded", function(e) {
+                    addLog('🏁 EVENT: Chat session ended', 'info');
+                });
+                
+                // Сама инициализация
+                addLog('🔧 Calling embeddedservice_bootstrap.init()...', 'info');
+                
+                embeddedservice_bootstrap.init(
+                    orgId,
+                    deploymentId,
+                    baseUrl,
+                    { scrt2URL: scrt2URL }
+                );
+                
+                addLog('✅ init() called successfully', 'success');
+                updateStatus('Initializing...', false);
+                
+                // Таймаут для проверки, не зависла ли инициализация
+                setTimeout(() => {
+                    const status = statusSpan.textContent;
+                    if (status === 'Initializing...') {
+                        addLog('⚠️ Warning: Init still in progress after 10 seconds', 'error');
+                        addLog('💡 Check browser console (F12) for CORS or network errors', 'info');
+                    }
+                }, 10000);
+                
+            } catch (err) {
+                addLog(`❌ EXCEPTION in init: ${err.message}`, 'error');
+                addLog(`Stack: ${err.stack}`, 'error');
+                updateStatus(`Failed: ${err.message}`, true);
+            }
+        }
+        
+        // Проверка загрузки скрипта
+        addLog('📄 Page loaded, waiting for bootstrap script...', 'info');
+        
+        // Функция, которая вызовется когда скрипт загрузится
+        window.onScriptLoad = function() {
+            addLog('📦 Bootstrap script loaded, calling initEmbeddedMessaging()', 'success');
+            initEmbeddedMessaging();
+        };
+        
+        // Альтернативный способ - проверяем каждые 500ms не загрузился ли скрипт
+        let checkCount = 0;
+        const scriptCheckInterval = setInterval(() => {
+            checkCount++;
+            if (typeof embeddedservice_bootstrap !== 'undefined') {
+                addLog(`✅ embeddedservice_bootstrap detected after ${checkCount * 500}ms`, 'success');
+                clearInterval(scriptCheckInterval);
+                if (!window.initCalled) {
+                    window.initCalled = true;
+                    initEmbeddedMessaging();
+                }
+            } else if (checkCount > 20) { // 10 секунд
+                addLog('❌ Timeout: embeddedservice_bootstrap not loaded after 10 seconds', 'error');
+                addLog('💡 Check if the script URL is accessible', 'error');
+                addLog(`💡 URL: https://booksy2--aldev3.sandbox.my.site.com/ESWChatwithAgentforce1776023448484/assets/js/bootstrap.min.js`, 'info');
+                updateStatus('Script load timeout', true);
+                clearInterval(scriptCheckInterval);
+            }
+        }, 500);
+        
+        // Отслеживаем ошибки загрузки скрипта
+        const scriptTag = document.querySelector('script[src*="bootstrap.min.js"]');
+        if (scriptTag) {
+            scriptTag.onerror = function() {
+                addLog('❌ Failed to load bootstrap script! Network error or invalid URL', 'error');
+                addLog('💡 Check: Is the site accessible? Is CORS configured?', 'error');
+                updateStatus('Script load failed', true);
+                clearInterval(scriptCheckInterval);
+            };
+            addLog('🔍 Script tag found, onerror handler attached', 'info');
+        } else {
+            addLog('⚠️ Could not find script tag', 'error');
+        }
+        
+        // Общая информация об окружении
+        addLog(`🌍 Browser: ${navigator.userAgent}`, 'info');
+        addLog(`🔒 Protocol: ${window.location.protocol}`, 'info');
+        addLog(`🏠 Host: ${window.location.host}`, 'info');
+        
+        // Проверка на CORS/issues
+        if (window.location.protocol === 'file:') {
+            addLog('⚠️ Running from file:// - CORS and security restrictions may apply!', 'error');
+            addLog('💡 Better to serve this page via HTTP(S) server', 'info');
+        }
+        
+    </script>
+    
+    <script type='text/javascript' 
+            src='https://booksy2--aldev3.sandbox.my.site.com/ESWChatwithAgentforce1776023448484/assets/js/bootstrap.min.js' 
+            onload='window.onScriptLoad && window.onScriptLoad()'>
+    </script>
+
+</body>
+</html>

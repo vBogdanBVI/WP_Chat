@@ -7,29 +7,85 @@
 </head>
 <body>
 
-    <p>test info 5</p>
+<p>test info 5</p>
 
-  
 <script type='text/javascript'>
-	function initEmbeddedMessaging() {
-		try {
-			embeddedservice_bootstrap.settings.language = 'en_US'; // For example, enter 'en' or 'en-US'
+    console.log('[INIT] Page loaded');
 
-			embeddedservice_bootstrap.init(
-				'00DS800000GbGxp',
-				'Chat_with_Agentforce',
-				'https://booksy2--aldev3.sandbox.my.site.com/ESWChatwithAgentforce1776023448484',
-				{
-					scrt2URL: 'https://booksy2--aldev3.sandbox.my.salesforce-scrt.com'
-				}
-			);
-		} catch (err) {
-			console.error('Error loading Embedded Messaging: ', err);
-		}
-	};
+    function initEmbeddedMessaging() {
+        console.log('[INIT] initEmbeddedMessaging called');
+
+        try {
+            if (typeof embeddedservice_bootstrap === 'undefined') {
+                console.error('[ERROR] embeddedservice_bootstrap is NOT loaded');
+                return;
+            }
+
+            console.log('[INIT] embeddedservice_bootstrap is available');
+
+            embeddedservice_bootstrap.settings.language = 'en_US';
+            console.log('[INIT] Language set');
+
+            // слушаем все ключевые события
+            window.addEventListener("onEmbeddedMessagingReady", (e) => {
+                console.log('[EVENT] onEmbeddedMessagingReady fired', e);
+            });
+
+            window.addEventListener("onEmbeddedMessagingInitSuccess", (e) => {
+                console.log('[EVENT] Init SUCCESS', e);
+            });
+
+            window.addEventListener("onEmbeddedMessagingInitError", (e) => {
+                console.error('[EVENT] Init ERROR', e);
+            });
+
+            window.addEventListener("onEmbeddedMessagingButtonCreated", (e) => {
+                console.log('[EVENT] Button created', e);
+            });
+
+            window.addEventListener("onEmbeddedMessagingButtonClicked", (e) => {
+                console.log('[EVENT] Button clicked', e);
+            });
+
+            window.addEventListener("onEmbeddedMessagingConversationStarted", (e) => {
+                console.log('[EVENT] Conversation started', e);
+            });
+
+            console.log('[INIT] Calling embeddedservice_bootstrap.init...');
+
+            embeddedservice_bootstrap.init(
+                '00DS800000GbGxp',
+                'Chat_with_Agentforce',
+                'https://booksy2--aldev3.sandbox.my.site.com/ESWChatwithAgentforce1776023448484',
+                {
+                    scrt2URL: 'https://booksy2--aldev3.sandbox.my.salesforce-scrt.com'
+                }
+            );
+
+            console.log('[INIT] init() called');
+
+        } catch (err) {
+            console.error('[ERROR] Exception during init:', err);
+        }
+    }
+
+    // глобальные JS ошибки
+    window.onerror = function(message, source, lineno, colno, error) {
+        console.error('[GLOBAL ERROR]', { message, source, lineno, colno, error });
+    };
+
+    window.addEventListener('unhandledrejection', function(event) {
+        console.error('[PROMISE ERROR]', event.reason);
+    });
+
 </script>
-<script type='text/javascript' src='https://booksy2--aldev3.sandbox.my.site.com/ESWChatwithAgentforce1776023448484/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>
 
+<script 
+    type='text/javascript' 
+    src='https://booksy2--aldev3.sandbox.my.site.com/ESWChatwithAgentforce1776023448484/assets/js/bootstrap.min.js'
+    onload="console.log('[SCRIPT] bootstrap loaded'); initEmbeddedMessaging();"
+    onerror="console.error('[SCRIPT] FAILED to load bootstrap');"
+></script>
 
 </body>
 </html>
